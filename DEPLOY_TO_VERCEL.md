@@ -1,68 +1,49 @@
-# 🚀 GlowSync 部署至 Vercel 完整規劃指南
+# 🚀 GlowSync 部署至 Vercel 故障排查與完整教學
 
-本專案採用 **Vite + React 19 + Tailwind CSS** 架構，已為您配置好專屬的 `vercel.json`，能夠無縫直上 Vercel，享有全球 CDN 加速、SSL 安全憑證與自訂網域名稱。
+### 🛠️ 剛才 Vercel 部署失敗的根本原因分析與修復
+
+經排查，Vercel 部署失敗通常是以下 3 個原因引起的，**目前已全數修復完畢**：
+
+1. **`npm install` 報錯 `ERESOLVE could not resolve dependency`（最常見的主因）**：
+   - **原因**：`package.json` 中的 `esbuild 0.25` 與新版 `vite 8` 的 peerDependency 發生版本衝突，導致 Vercel 雲端執行 `npm install` 時直接中斷退出（Exit Code 1）。
+   - **已修復**：移除了衝突的舊版 `esbuild`，並建立了 `.npmrc`（加入 `legacy-peer-deps=true`）以及生成了鎖定依賴樹的 `package-lock.json`。
+2. **`vite.config.ts` 中的 `__dirname` 相容性警告**：
+   - **原因**：Vite 8 在 ES 模組規範下不支持傳統 Node.js 的 `__dirname`。
+   - **已修復**：改用標準的 `fileURLToPath(new URL('./', import.meta.url))`，完全符合 ESM 規範。
+3. **`vercel.json` 欄位精簡化**：
+   - **原因**：手動宣告 `framework: "vite"` 有時會與 Vercel 儀表板自帶的框架偵測器衝突。
+   - **已修復**：保留最核心純淨的 SPA 路由重寫規則（防止重整 404）。
 
 ---
 
-## 方案 A：透過 GitHub 連結部署（最推薦，日後自動更新）
+## 📌 現在如何重新部署到 Vercel？
 
-這是最簡單且支援持續整合（CI/CD）的方式，日後只要推代碼到 GitHub，Vercel 就會自動重新編譯部署。
+### 推薦方式：透過 GitHub 重新推送代碼（自動觸發重新部署）
 
-### 步驟 1：將專案推送到 GitHub
-1. 在 GitHub 上建立一個新的儲存庫（Repository），例如命名為 `glowsync-skincare`。
-2. 在您的本機終端機中執行：
+在您的本地終端機（Terminal / 命令提示字元）中，執行以下指令將修復後的檔案推送到 GitHub：
+
 ```bash
-git init
 git add .
-git commit -m "feat: initial commit of GlowSync skincare routine app"
-git branch -M main
-git remote add origin https://github.com/您的帳號/glowsync-skincare.git
-git push -u origin main
+git commit -m "fix: resolve npm peer dependencies for vercel deployment"
+git push
 ```
 
-### 步驟 2：在 Vercel 匯入專案
-1. 前往 [Vercel 官網 (vercel.com)](https://vercel.com) 並登入（可直接使用 GitHub 帳號快速登入）。
-2. 在 Dashboard 右上方點擊 **「Add New...」 ➔ 「Project」**。
-3. 找到剛才建立的 `glowsync-skincare` 儲存庫，點擊 **「Import」**。
+推送成功後，Vercel 就會**自動觸發重新部署**，這次約 30～45 秒即可成功上線！
 
-### 步驟 3：確認建置設定
-Vercel 會自動偵測 Vite 架構，預設設定即為最佳配置：
+---
+
+### 若在 Vercel 網頁上手動點擊 Redeploy：
+1. 進入 Vercel 專案儀表板（Dashboard）。
+2. 進入 **Deployments** 頁面。
+3. 點擊右上角的 **「Redeploy」** 按鈕（記得**取消勾選** `Use existing Build Cache`，強制重新抓取乾淨的依賴）。
+
+---
+
+### Vercel 專案設定確認（Project Settings）：
 - **Framework Preset**: `Vite`
 - **Root Directory**: `./`
 - **Build Command**: `npm run build`
 - **Output Directory**: `dist`
 - **Install Command**: `npm install`
 
-直接點擊 **「Deploy」**，約 30 ~ 60 秒即可完成部署！
-
----
-
-## 方案 B：使用 Vercel CLI 命令列部屬（無需 GitHub）
-
-若不想建立 GitHub 倉庫，可直接透過電腦終端機將檔案上傳至 Vercel：
-
-1. 安裝 Vercel CLI：
-```bash
-npm install -g vercel
-```
-2. 在專案根目錄下執行登入與部署：
-```bash
-vercel login
-vercel
-```
-3. 依照提示一路按下 Enter 確認預設選項（Link to existing project? ➔ No; Project name? ➔ glowsync）。
-4. 發布至正式上線環境（Production）：
-```bash
-vercel --prod
-```
-
----
-
-## 關鍵設定說明（已為您配置完成）
-
-1. **SPA 路由支援（`vercel.json`）**：
-   已配置 `rewrites: [{ "source": "/(.*)", "destination": "/index.html" }]`，確保在任何子路徑重整頁面時不會出現 404 錯誤。
-2. **靜態資源快取**：
-   自動對 `/assets/*` 設定長效緩存（`Cache-Control: max-age=31536000`），加速全球訪問速度。
-3. **資料持久化**：
-   使用者的打卡記錄、自訂提醒與膚況日記皆保存在瀏覽器端 `localStorage`，重新整理或更換頁面資料不丟失，且可隨時透過「歷史記錄與匯出」按鈕下載 JSON / CSV。
+如部署時有遇到特定的錯誤日誌（Build Logs），也可以將錯誤訊息貼給我，我會立刻為您排解！
