@@ -12,6 +12,8 @@ import { AnalyticsHistoryView } from './components/AnalyticsHistoryView';
 import { TimerModal } from './components/TimerModal';
 import { RemindersModal } from './components/RemindersModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
+import { NotificationToast } from './components/NotificationToast';
+import { useTimeBasedReminders } from './hooks/useTimeBasedReminders';
 import {
   getTodayDateKey,
   getDayOfWeekFromDate,
@@ -42,6 +44,15 @@ export default function App() {
 
   const [isRemindersOpen, setIsRemindersOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
+
+  // Time-based background reminder ticker
+  const {
+    activeToast,
+    dismissToast,
+    triggerTestNotification,
+    snoozeNotification,
+    refreshReminders
+  } = useTimeBasedReminders();
 
   // Sync weekType override
   const handleSetWeekType = (newWeek: WeekType) => {
@@ -168,6 +179,14 @@ export default function App() {
         )}
       </main>
 
+      {/* Top-Right Friendly Push Notification Toast */}
+      <NotificationToast
+        notification={activeToast}
+        onDismiss={dismissToast}
+        onGoToRoutine={() => setCurrentTab('today')}
+        onSnooze={snoozeNotification}
+      />
+
       {/* Modals */}
       <TimerModal
         isOpen={isTimerOpen}
@@ -179,6 +198,8 @@ export default function App() {
       <RemindersModal
         isOpen={isRemindersOpen}
         onClose={() => setIsRemindersOpen(false)}
+        onTriggerTestNotification={triggerTestNotification}
+        onRemindersUpdated={refreshReminders}
       />
 
       <ProductDetailModal
