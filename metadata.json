@@ -1,0 +1,6 @@
+{
+  "name": "GlowSync - 日常保養品與保健品全方位指南",
+  "description": "精準每日保養與保健品攝取時段、分子吸收順序、個人化提醒、歷史打卡追蹤與數據匯出分析。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
