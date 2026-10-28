@@ -200,6 +200,9 @@ export interface SkinLog {
   id: string;
   date: string;
   condition: 'perfect' | 'normal' | 'dry' | 'acne' | 'sensitive' | 'flaking';
+  chinCondition?: 'smooth' | 'comedones' | 'acne' | 'dry_stinging';
+  chinNotes?: string;
+  toleranceDowngraded?: boolean;
   hydrationScore: number; // 1-5
   notes: string;
   createdAt: number;
@@ -298,13 +301,17 @@ export const exportDataAsJSON = () => {
 // Export to CSV
 export const exportDataAsCSV = () => {
   const all = getAllCheckIns();
+  const skinLogs = getAllSkinLogs();
+  const skinMap = new Map(skinLogs.map(l => [l.date, l]));
+
   const rows = [
-    ['日期 (Date)', '星期 (Day)', '週次 (Week)', '模式 (Mode)', '已完成步數', '總步數', '完成度百分比(%)', '最後更新時間']
+    ['日期 (Date)', '星期 (Day)', '週次 (Week)', '模式 (Mode)', '已完成步數', '總步數', '完成度(%)', '整體膚況', '下巴狀況', '耐受度降級', '筆記', '最後更新時間']
   ];
 
   Object.values(all)
     .sort((a, b) => a.date.localeCompare(b.date))
     .forEach(r => {
+      const skin = skinMap.get(r.date);
       rows.push([
         r.date,
         r.dayOfWeek,
@@ -313,6 +320,10 @@ export const exportDataAsCSV = () => {
         String(r.completedStepIds.length),
         String(r.totalSteps),
         `${r.percentage}%`,
+        skin?.condition || r.skinCondition?.status || '未記錄',
+        skin?.chinCondition || r.chinCondition || '未記錄',
+        skin?.toleranceDowngraded || r.toleranceDowngraded ? '是 (切換修護)' : '否',
+        `"${(skin?.notes || skin?.chinNotes || r.skinCondition?.notes || '').replace(/"/g, '""')}"`,
         new Date(r.timestamp).toLocaleString('zh-TW')
       ]);
     });

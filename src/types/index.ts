@@ -34,6 +34,10 @@ export interface ProductItem {
   molecularTip?: string;
   notes?: string;
   cautions?: string;
+  status?: 'active' | 'paused_w1_w4';
+  pauseReason?: string;
+  pendingVerification?: string;
+  patchTestRequired?: boolean;
 }
 
 export interface StepItem {
@@ -93,6 +97,9 @@ export interface CheckInRecord {
   completedStepIds: string[];
   totalSteps: number;
   percentage: number;
+  chinCondition?: 'smooth' | 'comedones' | 'acne' | 'dry_stinging';
+  chinNotes?: string;
+  toleranceDowngraded?: boolean;
   skinCondition?: {
     status: 'good' | 'dry' | 'breakout' | 'sensitive' | 'flaking';
     notes: string;

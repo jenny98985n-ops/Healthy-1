@@ -65,8 +65,11 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'all',
     zoneLabel: '全臉適用',
     weekType: 'both',
-    usageRule: '僅限週一與週五「只擦防曬的素顏上班日」使用。',
-    molecularTip: '洗卸二合一，微囊維生素C洗淨防曬的同時溫和代謝老廢角質，避免過度清潔。'
+    status: 'paused_w1_w4',
+    pauseReason: '【前 4 週暫停】品名標示「去角質護理」，保守視為含去角質力。為減少變因，前 4 週洗卸固定「卸妝油 ➔ 綠茶潔面」，第 5 週後再評估。',
+    pendingVerification: '去角質酸類濃度與去脂刺激度待確認',
+    usageRule: '前 4 週暫停使用；第 5 週後依角質耐受度評估是否加入素顏洗卸。',
+    molecularTip: '洗卸二合一凝膠，品名含去角質護理，前 4 週先維持單純洗卸以建立屏障基礎。'
   },
   {
     id: '06',
@@ -91,8 +94,8 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'all',
     zoneLabel: '全臉適用',
     weekType: 'even',
-    usageRule: '偶數週早晚洗面主力潔顏。',
-    molecularTip: '綠茶精萃抗氧化舒緩，泡沫細緻溫和，秋冬乾燥晨間洗顏極佳選擇。'
+    usageRule: '前 4 週固定洗卸潔面核心（搭配溫和卸妝油），泡沫溫和保濕。',
+    molecularTip: '綠茶精萃抗氧化舒緩，泡沫細緻溫和，秋冬乾燥晨間與晚間洗顏極佳選擇。'
   },
   {
     id: '08',
@@ -104,8 +107,11 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'chin',
     zoneLabel: '下巴與T字專用',
     weekType: 'odd',
-    usageRule: '奇數週日晚間，局部清洗下巴與T字毛孔粗大出油處，控油收斂。',
-    molecularTip: '富含綠番茄專利成分，針對下巴粉刺與擴張毛孔進行緊緻，兩頰乾肌請避開。'
+    status: 'paused_w1_w4',
+    pauseReason: '【前 4 週暫停】宣傳宣稱清潔力強與緊緻去油，但成分未經明確確認。前 4 週暫停避免過度去脂，統一固定使用綠茶保濕潔面乳，第 5 週再評估。',
+    pendingVerification: '真實清潔力與界面活性劑去脂度待確認',
+    usageRule: '前 4 週暫停使用；固定綠茶保濕潔面，第 5 週後再行評估。',
+    molecularTip: '綠番茄專利提取物，前 4 週先暫停避免與水楊酸產生過度去脂交互作用。'
   },
   {
     id: '09',
@@ -309,7 +315,7 @@ export const ALL_PRODUCTS: ProductItem[] = [
     weekType: 'both',
     usageRule: '【週二專屬・裸肌第一步】洗臉並擦乾後第一步使用！僅點塗下巴與鼻翼，靜置 3 分鐘待脂溶性酸深層滲透後，再擦小紫瓶。',
     molecularTip: 'pH 3.2-3.8 黃金酸鹼值，脂溶性水楊酸直接穿透毛孔油脂壁，分解角化死皮與閉口。',
-    cautions: '兩頰乾荒敏感區嚴格避開！當晚不可與 A 醇或微晶針併用。'
+    cautions: '【安全與頻率規範】：1. 前 4 週每週僅使用 1 次（週二），且僅點塗下巴與鼻翼粉刺區。 2. 兩頰乾肌嚴禁碰酸！ 3. 第 5 週起依「下巴狀況記錄」評估是否增為每週 2 次。 4. 所有活性夜至少相隔 ≥3 天。'
   },
   {
     id: '23',
@@ -317,13 +323,15 @@ export const ALL_PRODUCTS: ProductItem[] = [
     name: 'VT Reedle Shot 300 微晶微針精華',
     brand: 'VT Cosmetics',
     category: 'serum_active',
-    categoryLabel: '物理微針前導通道',
+    categoryLabel: '物理微晶前導通道',
     targetZone: 'all',
     zoneLabel: '全臉（避開眼周與紅腫痘）',
     weekType: 'both',
-    usageRule: '【週三專屬・裸肌第一步】洗臉擦乾後第一步乾壓全臉！有微刺感屬正常，嚴禁當晚擦小紫瓶與 AQ 乳，直接進入修護安瓶。',
-    molecularTip: '微米級二氧化矽針狀微晶打開角質細胞間隙物理微通道，使後續 PDRN 胜肽吸收率暴增數倍。',
-    cautions: '避開眼周、嘴唇及下巴紅腫發炎痘痘，以按壓代替來回用力摩擦。'
+    patchTestRequired: true,
+    pendingVerification: '成分為「二氧化矽微晶」（物理微通道）；PDRN/積雪草僅為一般保濕選項，不視為抵銷刺痛的解藥或修護保證',
+    usageRule: '【裸肌第一步乾壓】洗臉徹底擦乾後乾壓全臉！有微刺感屬正常，嚴禁當晚擦小紫瓶與 AQ 乳，微晶後只做單純溫和保濕。',
+    molecularTip: '天然微米級二氧化矽微晶打開角質細胞間隙物理微通道。注意：與 Celimax 微晶機制不同，但皆具刺激性，兩款功能微晶夜須拉開 4～5 天以上。',
+    cautions: '【安全與排程規範】：1. 🧪【首次局部測試】：首次使用前務必先在手臂內側或耳後測試 24~48 小時！ 2. 避開眼周、嘴唇及發炎痘痘，以垂直輕壓代替摩擦。 3. 第 3 週排於「週六」（跳過 A 醇），確保與週二水楊酸相隔 4 天。'
   },
   {
     id: '24',
@@ -335,9 +343,11 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'all',
     zoneLabel: '全臉避開眼唇與下巴痘',
     weekType: 'both',
-    usageRule: '【週五專屬・微量建立耐受】化妝水打底後，取豌豆大小按壓全臉，眼周需先塗好眼霜保護。',
-    molecularTip: '微晶包覆純 A 醇促進真皮膠原蛋白合成與角質細胞正常更替，緊緻毛孔淡化細紋。',
-    cautions: '當晚停用 #28 AQ 乳液，避免過多親脂油脂形成阻隔層影響 A 醇轉化。'
+    patchTestRequired: true,
+    pendingVerification: '所含微晶為「A-Shot 吸收輔助微粒」（與 VT 二氧化矽微晶機制不同），具刺激性，兩款微晶夜需拉開 ≥4～5 天',
+    usageRule: '【週五專屬・微量建立耐受】化妝水打底後，取豌豆大小按壓全臉，眼周需先塗好眼霜保護隔離。',
+    molecularTip: 'A-Shot 微粒協同純 A 醇促進真皮膠原蛋白合成與角質細胞更替。耐受度比排程更重要：若皮膚泛紅脫皮，當晚應自動跳過。',
+    cautions: '【三大鐵則安全警示】：1. 🤰【懷孕/備孕安全】：懷孕及備孕期間嚴格禁止使用 A 醇 (Retinol)！ 2. 🧪【首次局部測試】：首次使用前請先在耳後或手臂內側測試 24 小時。 3. 使用前必塗眼霜隔離眼周，當晚停用 AQ 乳防阻礙，全臉維持豌豆大小即可。 4. 第 3 週跳過 A 醇！'
   },
   {
     id: '25',
@@ -349,8 +359,9 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'all',
     zoneLabel: '全臉適用',
     weekType: 'both',
-    usageRule: '週三微晶夜與週四導入夜的核心修護安瓶，全臉均勻塗抹。',
-    molecularTip: '微晶打通通道後立即注入三文魚 PDRN，啟動細胞層級自我修復與膠原增生。'
+    usageRule: '週三微晶夜與週四導入夜的可選用修護安瓶，全臉均勻塗抹。',
+    molecularTip: '微晶通道後滋養角質。注意：PDRN/積雪草是保濕修護選項，不能保證抵銷微晶刺激，亦非修護保證，依耐受度選用。',
+    notes: '不作為消除刺激的解藥；微晶夜後以簡單溫和保濕為主，本安瓶為可選輔助。'
   },
   {
     id: '26',
@@ -375,8 +386,11 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'all',
     zoneLabel: '全臉適用',
     weekType: 'even',
-    usageRule: '偶數週早晨潔顏與噴霧後擦拭，提亮氣色打造晶透水光肌底。',
-    molecularTip: '5% 菸鹼醯胺搭配桃子發酵產物，抑制黑色素轉移同時調控白天皮脂分泌。'
+    status: 'paused_w1_w4',
+    pauseReason: '【前 4 週暫停】含 10% 菸鹼醯胺 + 4% 傳明酸，高濃度活性在前 4 週先暫停，先穩固基礎屏障；第 5 週起一次只加一個新變因（早 ANUA 或晚 TO 擇一）。',
+    pendingVerification: '高濃度 10% 菸鹼醯胺耐受度待第 5 週單一變因測試',
+    usageRule: '前 4 週暫停使用；第 5 週起若膚況穩定，可評估每週於早晨加入作為提亮。',
+    molecularTip: '5%~10% 菸鹼醯胺搭配桃子發酵產物，前 4 週先暫停以減少皮膚刺激變因。'
   },
   {
     id: '29',
@@ -388,8 +402,11 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'chin',
     zoneLabel: '下巴出油粉刺區專用',
     weekType: 'even',
-    usageRule: '偶數週一晚間，僅局部點塗下巴粉刺出油旺盛處，嚴禁擦兩頰。',
-    molecularTip: '高濃度維他命 B3 與有機鋅鹽協同，抑制下巴皮脂腺過度分泌，收斂毛孔。'
+    status: 'paused_w1_w4',
+    pauseReason: '【前 4 週暫停】10% 高濃度菸鹼醯胺與鋅前 4 週先暫停，下巴出油改由 #26-2 米糠乳清爽調控；第 5 週起一次只加一個新變因。',
+    pendingVerification: '下巴粉刺對 10% 菸鹼醯胺之耐受性待第 5 週評估',
+    usageRule: '前 4 週暫停使用；第 5 週起依下巴粉刺與耐受度評估是否加入。',
+    molecularTip: '高濃度維他命 B3 與有機鋅鹽，前 4 週避免與水楊酸頻繁疊加造成泛紅。'
   },
 
   // E. 眼周防護與撫紋
@@ -457,8 +474,9 @@ export const ALL_PRODUCTS: ProductItem[] = [
     targetZone: 'chin',
     zoneLabel: '下巴粉刺區【唯一指定】',
     weekType: 'both',
-    usageRule: '【分區關鍵】每日早晚下巴唯一指定乳液！薄擦一層即可，嚴禁在下巴塗抹厚重面霜。',
-    molecularTip: '米糠發酵濾液提供溫和水性脂質，修護皮脂膜的同時不阻塞毛孔油脂通道。'
+    usageRule: '【前 4 週下巴唯一預設】每日早晚下巴唯一指定乳液！薄擦一層即可，嚴禁在下巴塗抹厚重面霜與橘子霜。',
+    molecularTip: '米糠發酵濾液提供溫和水性脂質，修護皮脂膜的同時不阻塞毛孔油脂通道。',
+    notes: '【前 4 週減法原則】：前 4 週下巴預設用清爽乳液；搭配「下巴狀況記錄欄」，第 5 週依實際粉刺紀錄評估是否放寬或維持。'
   },
   {
     id: '27-2',
@@ -2317,23 +2335,44 @@ export const FOUR_WEEK_CALENDAR = Array.from({ length: 28 }, (_, i) => {
   if (dayOfWeek === 'tue') {
     themeType = '類型 B・水楊酸煥膚';
     title = '寶拉水楊酸煥膚夜';
-    pmSummary = '裸肌水楊酸(3分) ➔ 小紫瓶 ➔ AQ乳(兩頰) ➔ 角鯊霜/冰河霜';
+    pmSummary = '裸肌水楊酸(3分，僅下巴鼻翼) ➔ 小紫瓶 ➔ AQ乳(兩頰) ➔ 角鯊霜/冰河霜';
   } else if (dayOfWeek === 'wed') {
-    themeType = isOddWeek ? '類型 D・微晶激活(VT300)' : '類型 D・微晶激活+淡斑';
-    title = isOddWeek ? 'VT Reedle 300 微晶夜' : 'VT 300 + 妮維雅630淡斑';
-    pmSummary = '裸肌乾壓 VT 300 ➔ PDRN安瓶 ➔ Dr.Reju-All修復霜 / 630晚霜';
+    if (weekNum === 3) {
+      // 第 3 週優化：Reedle 挪至週六，週三維持溫和深層修護
+      themeType = '類型 A・溫和深層保濕';
+      title = '第 3 週深層舒緩保濕夜';
+      pmSummary = '小紫瓶 ➔ AQ乳(兩頰) ➔ 靈芝水 ➔ Torriden玻尿酸 ➔ 角鯊霜 (微晶挪移至週六)';
+    } else {
+      themeType = isOddWeek ? '類型 D・微晶激活(VT300)' : '類型 D・微晶激活+淡斑';
+      title = isOddWeek ? 'VT Reedle 300 微晶夜' : 'VT 300 + 妮維雅630淡斑';
+      pmSummary = '裸肌乾壓 VT 300 ➔ 簡單溫和保濕 / PDRN安瓶 ➔ Dr.Reju-All修復霜 / 630晚霜';
+    }
   } else if (dayOfWeek === 'thu') {
     themeType = '類型 A・離子儀導出導入';
     title = isOddWeek ? '離子儀導出 + 玻尿酸導入' : '離子儀導出 + PDRN導入';
     pmSummary = '舒特膚導出 ➔ 小紫瓶 ➔ AQ乳 ➔ 離子超導精華 ➔ 鎖水霜';
   } else if (dayOfWeek === 'fri') {
-    themeType = '類型 C・A醇微晶抗老';
-    title = 'Celimax A醇微晶夜';
-    pmSummary = '小紫瓶 ➔ 化妝水(停AQ乳) ➔ 眼霜隔離 ➔ A醇豌豆大 ➔ 溫和封層';
+    if (weekNum === 3) {
+      // 第 3 週核心決策：跳過 A 醇！避免一週多重刺激
+      themeType = '類型 A・屏障修護夜（跳過A醇）';
+      title = '第 3 週溫和屏障修護夜';
+      pmSummary = '【優化版核心】：跳過 Celimax A 醇！小紫瓶 ➔ 靈芝水 ➔ 角鯊霜/米糠乳，給肌膚充分修復';
+    } else {
+      themeType = '類型 C・A醇微晶抗老';
+      title = 'Celimax A醇微晶夜';
+      pmSummary = '小紫瓶 ➔ 化妝水(停AQ乳) ➔ 眼霜隔離 ➔ A醇豌豆大(孕婦避開) ➔ 溫和封層';
+    }
   } else if (dayOfWeek === 'sat') {
-    themeType = isOddWeek ? '類型 A・PDRN棉片+黛珂紫霜' : '類型 A・美白注水提亮';
-    title = isOddWeek ? 'PDRN濕敷 + 黛珂紫霜' : '週末溫和美白提亮';
-    pmSummary = isOddWeek ? 'PDRN棉片(8分) ➔ 小紫瓶 ➔ AQ乳 ➔ 黛珂超微導紫霜' : '小紫瓶 ➔ AQ乳 ➔ 黛珂極光精粹 ➔ 契爾氏冰河霜';
+    if (weekNum === 3) {
+      // 第 3 週核心決策：週六執行 VT Reedle 300（相隔週二水楊酸4天，跳過週五A醇）
+      themeType = '類型 D・微晶激活(VT300)';
+      title = 'VT Reedle 300 微晶夜（週六安全排程）';
+      pmSummary = '【優化版調度】：裸肌乾壓 VT 300 ➔ 簡單溫和保濕 ➔ 兩頰修復霜 (相隔BHA 4天，跳過A醇)';
+    } else {
+      themeType = isOddWeek ? '類型 A・PDRN棉片+黛珂紫霜' : '類型 A・美白注水提亮';
+      title = isOddWeek ? 'PDRN濕敷 + 黛珂紫霜' : '週末溫和美白提亮';
+      pmSummary = isOddWeek ? 'PDRN棉片(8分) ➔ 小紫瓶 ➔ AQ乳 ➔ 黛珂超微導紫霜' : '小紫瓶 ➔ AQ乳 ➔ 黛珂極光精粹 ➔ 契爾氏冰河霜';
+    }
   } else if (dayOfWeek === 'sun') {
     themeType = isOddWeek ? '類型 D・保濕雙面膜SPA' : '類型 D・suisai+AZ100痘痘藍膜';
     title = isOddWeek ? '深層保濕面膜 + 綠橘子眼膜' : 'suisai酵素洗 + AZ100藍膜';
@@ -2397,38 +2436,87 @@ export const DEFAULT_REMINDERS: ReminderConfig[] = [
 
 export const SAFETY_GOLDEN_RULES = [
   {
-    id: 'rule-1',
-    title: '首步活性原則（酸類與微晶針在裸肌第一步）',
+    id: 'rule-tolerance',
+    title: '【最高原則】耐受度比排程更重要（GPT 嚴謹原則）',
     severity: 'critical',
-    desc: '#22 寶拉 2% 水楊酸（週二）與 #23 VT Reedle 300 微針精華（週三）必須在「洗臉後徹底擦乾」的裸肌狀態下使用！',
-    detail: '水楊酸需要酸性環境溶解角栓皮脂；VT 微晶需要乾臉乾壓開啟物理微通道。若先抹其他高分子保濕品，會形成屏障大幅削弱滲透。'
+    desc: '若當天皮膚出現乾燥脫皮、泛紅刺痛或發炎不適，應立即降級為「溫和修護夜」，延後或跳過酸類、微晶或 A 醇！',
+    detail: '具體排程是導航骨架，但肌膚耐受度才是絕對準則。切勿勉強照表操課，保護角質屏障永遠重於功效代謝。'
   },
   {
-    id: 'rule-2',
-    title: '黛珂「先乳後水」專利通道順序',
+    id: 'rule-week3',
+    title: '【第 3 週排程優化】週二水楊酸、週六 Reedle、跳過 A 醇',
     severity: 'critical',
-    desc: '#15 黛珂小紫瓶（微脂囊開啟細胞通道） ➔ #28 黛珂 AQ 煥妍柔膚乳 III（僅抹兩頰軟化角質） ➔ 拍傳統化妝水 ➔ 水性精華。',
-    detail: '磷脂質乳液能軟化秋冬變硬的兩頰角質層，使化妝水水分深層吸附。嚴格遵守此順序，確保高價頂級保養品發揮極致功效！'
+    desc: '第 3 週週五跳過 Celimax A 醇，週六執行 VT Reedle 300 微晶！',
+    detail: '原排程單週 3 個活性夜過於沉重。調度後，A 醇與 Reedle 相隔達 8 天與 6 天，週二水楊酸與週六 Reedle 相隔 4 天，所有活性夜至少相隔 ≥3 天，安全耐受度最佳。'
   },
   {
-    id: 'rule-3',
-    title: '分區護膚：乾頰豐潤滋養 vs. 下巴極度清爽防痘',
-    severity: 'high',
-    desc: '兩頰乾荒需厚塗角鯊霜 / 冰河霜 / 黛珂紫霜；下巴粉刺出油區【唯一指定 #26-2 MUJI 米糠乳液】，嚴格避開厚重霜類與橘子霜！',
-    detail: '避免外油內乾引發閉口粉刺爆發。遇紅腫大痘時，於保養最後一步以 Acclear 藥膏局部厚點。'
+    id: 'rule-pregnancy',
+    title: '【懷孕 / 備孕安全】嚴格避開 A 醇 (Retinol)',
+    severity: 'critical',
+    desc: '懷孕中或備孕期間女性嚴禁使用含有 A 醇（Retinol，如 #24 Celimax A 醇）的產品！',
+    detail: '維生素 A 衍生物具有已知致畸胎風險。備孕或懷孕期間請全面以溫和修護保濕霜替代 A 醇夜。'
   },
   {
-    id: 'rule-4',
-    title: '處方藥物與高活性 B 群嚴格間隔 60 分鐘',
+    id: 'rule-patchtest',
+    title: '【首次使用局部測試】高活性新品先做 Patch Test',
     severity: 'high',
-    desc: '早晨處方藥（PTU 抗甲狀腺 3 顆 + Topiramate 癲鍵錠 1 顆）與 Thorne 活性 B 群必須間隔 1 小時！',
+    desc: '新品（如 Celimax A 醇微晶、VT Reedle 300、高濃度酸類）首次上臉前，務必先在手臂內側或耳後測試 24~48 小時！',
+    detail: '若 24 小時後無紅腫搔癢、水泡等過敏反應，方可少量上臉使用，降低全面性接觸性皮膚炎風險。'
+  },
+  {
+    id: 'rule-microcrystal-mechanism',
+    title: '【微晶機制澄清】VT 二氧化矽微晶 vs Celimax A-Shot 微粒',
+    severity: 'high',
+    desc: 'VT Reedle 為二氧化矽骨針物理通道；Celimax 為 A-Shot 吸收輔助微粒。兩者機制不同，但皆具刺激性，保留 ≥4~5 天間隔規則！',
+    detail: '不稱兩者為同一微針結構，但兩款功能性微晶均會增加角質滲透與微刺激，因此必須嚴格拉開 4～5 天以上使用間隔。'
+  },
+  {
+    id: 'rule-cleansing-pause',
+    title: '【前 4 週洗卸減法】暫停綠番茄洗面乳與維 C 凝膠',
+    severity: 'high',
+    desc: '前 4 週洗卸固定「溫和卸妝油 ➔ 綠茶潔面」，暫停綠番茄洗面乳（清潔力待查）與維 C 凝膠（去角質護理），第 5 週再評估。',
+    detail: '建立穩定屏障基礎前減少洗卸變因。維 C 凝膠品名標示去角質護理，保守視為有去角質力；綠番茄清潔力未明，先一律暫停。'
+  },
+  {
+    id: 'rule-pdrn',
+    title: '【PDRN / 積雪草定位】為一般保濕修護選項，非刺激解藥',
+    severity: 'warning',
+    desc: 'Medicube PDRN 安瓶與積雪草為保濕輔助選項，不能保證抵銷微晶刺痛或作為修護保證！',
+    detail: 'VT Reedle 夜後應以最單純溫和的保濕為主；PDRN 安瓶可視耐受度自由選用，切勿將其視為可隨意濫用微晶的保證。'
+  },
+  {
+    id: 'rule-chin-lotion',
+    title: '【下巴清爽乳液與狀況追蹤】前 4 週下巴預設清爽米糠乳',
+    severity: 'warning',
+    desc: '前 4 週下巴預設使用 #26-2 MUJI 米糠發酵乳液，嚴禁厚重霜類與橘子霜；利用「下巴狀況記錄欄」追蹤，第 5 週依紀錄評估。',
+    detail: '下巴易生閉口角栓，前 4 週維持極簡水性清爽油分。若 4 週後下巴無閉口且穩定，方可評估放寬霜類或調整水楊酸頻率。'
+  },
+  {
+    id: 'rule-niacinamide',
+    title: '【菸鹼醯胺時程】前 4 週暫停，第 5 週起一次只加一個新變因',
+    severity: 'warning',
+    desc: 'ANUA 桃子精華 (10%+4%) 與 The Ordinary (10%+鋅) 前 4 週暫停；第 5 週起一次只加一款（早 ANUA 或晚 TO 二擇一）。',
+    detail: '高濃度菸鹼醯胺容易引起初用泛紅不耐。前 4 週專注建立基礎屏障，第 5 週起採單一變因導入法測試耐受。'
+  },
+  {
+    id: 'rule-bha-freq',
+    title: '【水楊酸頻率】前 4 週每週 1 次，第 5 週起依紀錄評估',
+    severity: 'warning',
+    desc: '前 4 週每週僅 1 次（週二）點塗下巴鼻翼；第 5 週起若下巴粉刺仍多且皮膚無乾刺，可評估增為每週 2 次。',
+    detail: '每週 1 次是安全起點。即使第 5 週評估增次，所有活性夜仍須嚴格相隔 ≥3 天，兩頰乾肌嚴禁沾碰酸類。'
+  },
+  {
+    id: 'rule-rx-b',
+    title: '【處方藥物間隔】抗甲狀腺/抗癲癇藥物與活性 B 群間隔 60 分鐘',
+    severity: 'high',
+    desc: '早餐後服完處方藥，務必間隔滿 60 分鐘再吃 Thorne 基本 B 群，避免競爭吸收！',
     detail: '活性輔酶 B 群容易與抗癲癇及抗甲狀腺藥物在腸道載體產生競爭吸收，間隔 60 分鐘確保藥效濃度維持穩定。'
   },
   {
-    id: 'rule-5',
-    title: '嚴禁強效活性成分同晚疊加疊擦',
-    severity: 'warning',
-    desc: '週二水楊酸、週三 VT 微晶、週五 Celimax A 醇微晶各自獨立成專屬夜晚，不可在同一晚混合疊擦！',
-    detail: '週三微晶夜與週五 A 醇夜均停用 #28 AQ 乳液；週五擦 A 醇前務必先以眼霜隔離眼周，防止角質層過度剝落與泛紅敏感。'
+    id: 'rule-decorte-routine',
+    title: '【黛珂專利順序】微脂囊小紫瓶 ➔ 先乳後水軟化角質',
+    severity: 'critical',
+    desc: '小紫瓶（開啟細胞通道） ➔ 黛珂 AQ 柔膚乳（僅塗兩頰軟化硬角質） ➔ 拍傳統化妝水 ➔ 保濕精華。',
+    detail: '磷脂質乳液能軟化秋冬變硬的兩頰角質層，使化妝水水分深層吸附。週三微晶夜與週五 A 醇夜停用 AQ 乳防阻礙。'
   }
 ];

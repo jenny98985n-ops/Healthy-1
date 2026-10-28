@@ -10,31 +10,43 @@ import { DayOfWeek, StepItem, WeekType } from '../types';
  * Ensures 100% absolute consistency between "今日主頁 (Today View)" and "4週月曆總覽 (Calendar View Modal)".
  */
 
-export function getNightStrategySummary(dayOfWeek: DayOfWeek, isOddWeek: boolean): string {
+export function getNightStrategySummary(dayOfWeek: DayOfWeek, isOddWeek: boolean, weekNum?: number): string {
+  if (weekNum === 3) {
+    if (dayOfWeek === 'wed') {
+      return '【第 3 週舒緩保濕】小紫瓶 ➔ 兩頰 AQ 乳液 ➔ 靈芝水 ➔ Torriden 玻尿酸 ➔ 兩頰角鯊霜 / 下巴米糠乳 (Reedle 挪移至週六)';
+    }
+    if (dayOfWeek === 'fri') {
+      return '【第 3 週核心優化・跳過 A 醇】溫和屏障修護夜：小紫瓶 ➔ 靈芝水 ➔ 兩頰角鯊霜 / 下巴米糠乳，避免三重刺激給肌膚充分修復';
+    }
+    if (dayOfWeek === 'sat') {
+      return '【第 3 週微晶激活】洗臉徹底擦乾 ➔ 裸肌全臉垂直乾壓 VT Reedle 300 ➔ 簡單溫和保濕 ➔ 兩頰修復霜 / 下巴米糠乳 (相隔BHA 4天，跳過A醇)';
+    }
+  }
+
   switch (dayOfWeek) {
     case 'mon':
       return isOddWeek
         ? '小林製藥擦痘痘 ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ 靈芝水 ➔ 黛珂極光 + Torriden 玻尿酸 ➔ 兩頰角鯊霜 / 下巴米糠乳'
-        : '小林製藥擦痘痘 ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ MUJI 化妝水 ➔ 黛珂極光 + All-in-One ➔ 下巴局部 TO 菸鹼醯胺 ➔ 兩頰冰河霜 / 下巴米糠乳';
+        : '小林製藥擦痘痘 ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ MUJI 化妝水 ➔ 黛珂極光 + All-in-One ➔ 兩頰冰河霜 / 下巴米糠乳 (菸鹼醯胺前4週暫停)';
     case 'tue':
       return isOddWeek
-        ? 'ilso 敷下巴10分 ➔ 卸妝洗臉擦乾 ➔ 裸肌水楊酸 (下巴鼻翼靜置3分) ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ 靈芝水 ➔ 兩頰角鯊霜 / 下巴米糠乳'
-        : 'ilso 敷下巴10分 ➔ 卸妝洗臉擦乾 ➔ 裸肌水楊酸 (下巴鼻翼靜置3分) ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ MUJI 化妝水 ➔ 紫熨斗眼霜 ➔ 兩頰冰河霜 / 下巴米糠乳';
+        ? 'ilso 敷下巴10分 ➔ 卸妝洗臉擦乾 ➔ 裸肌水楊酸 (僅下巴鼻翼靜置3分) ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ 靈芝水 ➔ 兩頰角鯊霜 / 下巴米糠乳'
+        : 'ilso 敷下巴10分 ➔ 卸妝洗臉擦乾 ➔ 裸肌水楊酸 (僅下巴鼻翼靜置3分) ➔ 小紫瓶 ➔ 兩頰 AQ 乳液 ➔ MUJI 化妝水 ➔ 紫熨斗眼霜 ➔ 兩頰冰河霜 / 下巴米糠乳';
     case 'wed':
       return isOddWeek
-        ? '洗臉徹底擦乾 ➔ 裸肌全臉垂直乾壓 VT Reedle 300 (當晚嚴禁擦小紫瓶與 AQ 乳！) ➔ PDRN 安瓶 ➔ 兩頰厚塗 Dr. Reju-All 修復霜 / 下巴薄擦米糠乳'
-        : '洗臉徹底擦乾 ➔ 裸肌全臉垂直乾壓 VT Reedle 300 (當晚嚴禁擦小紫瓶與 AQ 乳！) ➔ PDRN 安瓶 ➔ 兩頰薄塗 630 淡斑晚霜 / 下巴薄擦米糠乳';
+        ? '洗臉徹底擦乾 ➔ 裸肌全臉垂直乾壓 VT Reedle 300 (當晚嚴禁擦小紫瓶與 AQ 乳！) ➔ 簡單保濕 / PDRN 安瓶 ➔ 兩頰厚塗 Dr. Reju-All 修復霜 / 下巴薄擦米糠乳'
+        : '洗臉徹底擦乾 ➔ 裸肌全臉垂直乾壓 VT Reedle 300 (當晚嚴禁擦小紫瓶與 AQ 乳！) ➔ 簡單保濕 / PDRN 安瓶 ➔ 兩頰薄塗 630 淡斑晚霜 / 下巴薄擦米糠乳';
     case 'thu':
       return isOddWeek
         ? '離子儀 + 舒特膚潔膚水正離子導出3分 ➔ 潔面 ➔ 小紫瓶 ➔ 兩頰 AQ 乳 ➔ 靈芝水 ➔ 離子儀負離子超導 Torriden 玻尿酸5分 ➔ 兩頰角鯊霜 / 下巴米糠乳'
         : '離子儀 + 舒特膚潔膚水正離子導出3分 ➔ 潔面 ➔ 小紫瓶 ➔ 兩頰 AQ 乳 ➔ MUJI 化妝水 ➔ 離子儀負離子超導 PDRN 安瓶5分 ➔ 兩頰冰河霜 / 下巴米糠乳';
     case 'fri':
       return isOddWeek
-        ? '溫和潔面 ➔ 小紫瓶 ➔ 靈芝水 (當晚停用 AQ 乳防阻礙) ➔ 眼霜優先隔離眼周 ➔ 全臉豌豆大 Celimax A 醇 ➔ 全臉溫和封層角鯊霜'
-        : 'DUO 卸妝 + 潔面 ➔ 小紫瓶 ➔ MUJI 化妝水 (當晚停用 AQ 乳) ➔ 紫熨斗眼霜優先隔離 ➔ 全臉豌豆大 Celimax A 醇 ➔ 全臉冰河霜封層';
+        ? '溫和潔面 ➔ 小紫瓶 ➔ 靈芝水 (當晚停用 AQ 乳防阻礙) ➔ 眼霜優先隔離眼周 ➔ 全臉豌豆大 Celimax A 醇 (孕婦避開) ➔ 全臉溫和封層角鯊霜'
+        : 'DUO 卸妝 + 潔面 ➔ 小紫瓶 ➔ MUJI 化妝水 (當晚停用 AQ 乳) ➔ 紫熨斗眼霜優先隔離 ➔ 全臉豌豆大 Celimax A 醇 (孕婦避開) ➔ 全臉冰河霜封層';
     case 'sat':
       return isOddWeek
-        ? '卸妝 ➔ 綠番茄洗面乳局部洗下巴 ➔ PDRN 棉片濕敷兩頰8分 ➔ 小紫瓶 ➔ 兩頰 AQ 乳 ➔ 靈芝水 ➔ 黛珂極光 ➔ 兩頰黛珂紫霜 / 下巴米糠乳'
+        ? '卸妝 ➔ 綠茶潔面乳 ➔ PDRN 棉片濕敷兩頰8分 ➔ 小紫瓶 ➔ 兩頰 AQ 乳 ➔ 靈芝水 ➔ 黛珂極光 ➔ 兩頰黛珂紫霜 / 下巴米糠乳 (綠番茄前4週暫停)'
         : 'DUO 卸妝 + 綠茶潔面 ➔ 小紫瓶 ➔ 兩頰 AQ 乳 ➔ MUJI 化妝水 ➔ 黛珂極光精粹 ➔ 紫熨斗眼霜 ➔ 兩頰契爾氏冰河霜 / 下巴米糠乳';
     case 'sun':
       return isOddWeek
@@ -46,8 +58,385 @@ export function getNightStrategySummary(dayOfWeek: DayOfWeek, isOddWeek: boolean
 /**
  * Returns canonical night steps (Cleansing 1..N ➔ Skincare 1..N ➔ Body 1)
  */
-export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean): StepItem[] {
-  const prefix = `${dayOfWeek}-${isOddWeek ? 'odd' : 'even'}`;
+export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean, weekNum?: number): StepItem[] {
+  const prefix = `${dayOfWeek}-${isOddWeek ? 'odd' : 'even'}${weekNum ? `-w${weekNum}` : ''}`;
+
+  // Week 3 Special Overrides according to Consensus Plan
+  if (weekNum === 3) {
+    if (dayOfWeek === 'wed') {
+      // Week 3 Wednesday: Gentle Hydration (Reedle moved to Saturday)
+      return [
+        {
+          id: `${prefix}-clean-1`,
+          title: '#02 MUJI 無印良品 溫和卸妝油',
+          categoryLabel: '洗卸',
+          productCode: '#02',
+          productName: 'MUJI 無印良品 溫和卸妝油',
+          appliedRole: '晚間溫和洗卸・前 4 週固定洗卸',
+          targetZoneText: '全臉適用',
+          amount: '按壓 2 泵',
+          timingCategory: 'night_cleansing',
+          timingLabel: '晚間洗卸 Step 1',
+          instruction: '乾手乾臉打圈按摩，加水充分乳化沖淨。',
+          technique: '【乾手乾臉乳化手法】：取卸妝油均勻塗抹全臉按摩，乳化沖淨。'
+        },
+        {
+          id: `${prefix}-clean-2`,
+          title: '#07 innisfree 綠茶保濕胺基酸潔面乳',
+          categoryLabel: '洗卸',
+          productCode: '#07',
+          productName: 'innisfree 綠茶保濕胺基酸潔面乳',
+          appliedRole: '晚間泡沫洗顏・保留天然皮脂膜',
+          targetZoneText: '全臉適用',
+          amount: '黃豆大小',
+          timingCategory: 'night_cleansing',
+          timingLabel: '晚間洗卸 Step 2',
+          instruction: '搓出綿密泡沫洗臉，純棉柔巾輕壓吸乾。',
+          technique: '【起泡潔面手法】：溫水搓揉出豐盈柔滑泡泡，輕撫全臉吸乾。'
+        },
+        {
+          id: `${prefix}-care-1`,
+          title: '#15 黛珂 小紫瓶精粹',
+          categoryLabel: '前導通道',
+          isHighlighted: true,
+          productCode: '#15',
+          productName: 'COSME DECORTE 黛珂 小紫瓶超微導全能修護精粹',
+          appliedRole: '【第 3 週舒緩保濕】前導開啟吸收通道',
+          targetZoneText: '全臉手溫按壓',
+          amount: '按壓 2 泵',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 1',
+          instruction: '按壓 2 泵手溫覆蓋全臉，深層前導注水。',
+          technique: '【掌心手溫覆蓋手法】：洗臉後立即手溫覆蓋全臉按壓。'
+        },
+        {
+          id: `${prefix}-care-2`,
+          title: '#28 黛珂 AQ 煥妍柔膚乳 III',
+          categoryLabel: '先乳後水',
+          productCode: '#28',
+          productName: 'COSME DECORTE 黛珂 AQ 煥妍柔膚乳 III（極潤型）',
+          appliedRole: '【先乳後水】僅塗抹兩頰軟化角質',
+          targetZoneText: '【僅抹兩頰】',
+          amount: '按壓 1-2 泵',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 2',
+          instruction: '按壓兩頰軟化秋冬乾燥角質層，避開下巴。',
+          technique: '【掌心軟化手法】：按壓塗抹於兩頰乾燥處軟化硬角質。'
+        },
+        {
+          id: `${prefix}-care-3`,
+          title: '#16 品木宣言 靈芝水',
+          categoryLabel: '化妝水/噴霧',
+          productCode: '#16',
+          productName: 'ORIGINS 品木宣言 靈芝水',
+          appliedRole: '水相舒緩修護',
+          targetZoneText: '全臉拍水',
+          amount: '十元硬幣大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 3',
+          instruction: '輕拍靈芝水補水鎮靜。',
+          technique: '【雙掌輕拍吸收手法】：輕拍全臉補足水相養分。'
+        },
+        {
+          id: `${prefix}-care-4`,
+          title: '#21 Torriden 5D 玻尿酸保濕精華',
+          categoryLabel: '精華液',
+          productCode: '#21',
+          productName: 'Torriden DIVE-IN 微分子低分子玻尿酸保濕精華',
+          appliedRole: '深層水相保濕',
+          targetZoneText: '全臉適用',
+          amount: '滴管 1 滿管',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 4',
+          instruction: '全臉均勻抹開深層注水。',
+          technique: '【平滑延展吸收手法】：均勻塗抹至深層吸收。'
+        },
+        {
+          id: `${prefix}-care-5`,
+          title: '#35 雅詩蘭黛 特潤亮眼霜',
+          categoryLabel: '眼霜',
+          productCode: '#35',
+          productName: 'Estee Lauder 雅詩蘭黛 特潤全能修護亮眼霜（小棕眼霜）',
+          appliedRole: '眼周撫紋修護（單一眼霜原則）',
+          targetZoneText: '眼周專用',
+          amount: '米粒大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 5',
+          instruction: '單擦眼霜點按眼周眶骨，避免疊加防脂肪粒。',
+          technique: '【無名指腹輕彈點按手法】：輕柔點壓眼周眶骨。'
+        },
+        {
+          id: `${prefix}-care-6`,
+          title: '#29-2 S.NATURE 水庫角鯊烷保濕霜',
+          categoryLabel: '乳液/面霜',
+          productCode: '#29-2',
+          productName: 'S.NATURE 綠豆角鯊烷水分營養面霜',
+          appliedRole: '兩頰高保濕封層鎖水',
+          targetZoneText: '【僅塗抹兩頰乾燥區】',
+          amount: '五元硬幣大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 6A',
+          instruction: '兩頰厚塗手溫按壓封層。',
+          technique: '【掌心溫熱按壓封層手法】：兩頰按壓厚抹封層。'
+        },
+        {
+          id: `${prefix}-care-7`,
+          title: '#26-2 MUJI 米糠發酵乳液',
+          categoryLabel: '乳液/面霜',
+          productCode: '#26-2',
+          productName: 'MUJI 無印良品 米糠發酵乳液',
+          appliedRole: '下巴唯一指定清爽水感乳液',
+          targetZoneText: '【僅下巴粉刺區薄擦】',
+          amount: '僅需 1 滴',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 6B',
+          instruction: '下巴薄擦 1 滴米糠乳液保持透氣防閉口。',
+          technique: '【指腹單層薄擦手法】：下巴薄擦 1 滴即可。'
+        },
+        {
+          id: `${prefix}-body-1`,
+          title: '#B-04 Aveeno 燕麥優格保濕身體乳',
+          categoryLabel: '身體乳',
+          productCode: '身-04',
+          productName: 'Aveeno 艾惟諾 燕麥優格保濕身體乳',
+          appliedRole: '全身保濕鎖水',
+          targetZoneText: '全身手腳四肢',
+          amount: '適量',
+          timingCategory: 'night_body',
+          timingLabel: '晚間身體護理',
+          instruction: '洗澡後全身塗抹舒緩乾癢。',
+          technique: '【全身大面積塗抹手法】：均勻塗抹四肢軀幹。'
+        }
+      ];
+    }
+
+    if (dayOfWeek === 'fri') {
+      // Week 3 Friday: Skip Celimax Retinol! Gentle Barrier Night
+      return [
+        {
+          id: `${prefix}-clean-1`,
+          title: '#02 MUJI 無印良品 溫和卸妝油',
+          categoryLabel: '洗卸',
+          productCode: '#02',
+          productName: 'MUJI 無印良品 溫和卸妝油',
+          appliedRole: '晚間溫和洗卸・前 4 週固定洗卸',
+          targetZoneText: '全臉適用',
+          amount: '按壓 2 泵',
+          timingCategory: 'night_cleansing',
+          timingLabel: '晚間洗卸 Step 1',
+          instruction: '乾手乾臉打圈按摩，加水充分乳化沖淨。',
+          technique: '【乾手乾臉乳化手法】：取卸妝油均勻塗抹全臉按摩，乳化沖淨。'
+        },
+        {
+          id: `${prefix}-clean-2`,
+          title: '#07 innisfree 綠茶保濕胺基酸潔面乳',
+          categoryLabel: '洗卸',
+          productCode: '#07',
+          productName: 'innisfree 綠茶保濕胺基酸潔面乳',
+          appliedRole: '晚間泡沫洗顏・保留天然皮脂膜',
+          targetZoneText: '全臉適用',
+          amount: '黃豆大小',
+          timingCategory: 'night_cleansing',
+          timingLabel: '晚間洗卸 Step 2',
+          instruction: '溫水搓出細緻泡泡洗臉，純棉柔巾輕壓吸乾。',
+          technique: '【起泡潔面手法】：以細密泡沫輕柔清潔全臉肌膚。'
+        },
+        {
+          id: `${prefix}-care-1`,
+          title: '#15 黛珂 小紫瓶精粹',
+          categoryLabel: '前導通道',
+          isHighlighted: true,
+          productCode: '#15',
+          productName: 'COSME DECORTE 黛珂 小紫瓶超微導全能修護精粹',
+          appliedRole: '【第 3 週核心決策・跳過 A 醇】溫和屏障修護打底',
+          targetZoneText: '全臉手溫按壓',
+          amount: '按壓 2 泵',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 1',
+          instruction: '按壓 2 泵手溫覆蓋全臉，為肌膚打底充足水分。',
+          technique: '【掌心手溫覆蓋手法】：洗臉後手溫覆蓋全臉按壓。'
+        },
+        {
+          id: `${prefix}-care-2`,
+          title: '#16 品木宣言 靈芝水',
+          categoryLabel: '化妝水/噴霧',
+          productCode: '#16',
+          productName: 'ORIGINS 品木宣言 靈芝水',
+          appliedRole: '微分子水相安撫退紅',
+          targetZoneText: '全臉輕拍',
+          amount: '十元硬幣大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 2',
+          instruction: '輕拍靈芝水補水安撫角質。',
+          technique: '【雙掌輕拍吸收手法】：輕拍全臉補足水分。'
+        },
+        {
+          id: `${prefix}-care-3`,
+          title: '#35 雅詩蘭黛 特潤亮眼霜',
+          categoryLabel: '眼霜',
+          productCode: '#35',
+          productName: 'Estee Lauder 雅詩蘭黛 特潤全能修護亮眼霜（小棕眼霜）',
+          appliedRole: '眼周撫紋修護',
+          targetZoneText: '眼周專用',
+          amount: '米粒大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 3',
+          instruction: '無名指輕點眼周眶骨，專利抗藍光撫平細紋。',
+          technique: '【無名指腹輕彈點按手法】：輕柔點壓眼周眶骨。'
+        },
+        {
+          id: `${prefix}-care-4`,
+          title: '#29-2 S.NATURE 水庫角鯊烷保濕霜',
+          categoryLabel: '乳液/面霜',
+          productCode: '#29-2',
+          productName: 'S.NATURE 綠豆角鯊烷水分營養面霜',
+          appliedRole: '兩頰溫和封層鎖水',
+          targetZoneText: '【兩頰厚抹】',
+          amount: '五元硬幣大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 4A',
+          instruction: '兩頰厚塗手溫按壓封層，修護皮脂膜抵抗乾冷。',
+          technique: '【掌心溫熱按壓封層手法】：兩頰按壓厚抹封層。'
+        },
+        {
+          id: `${prefix}-care-5`,
+          title: '#26-2 MUJI 米糠發酵乳液',
+          categoryLabel: '乳液/面霜',
+          productCode: '#26-2',
+          productName: 'MUJI 無印良品 米糠發酵乳液',
+          appliedRole: '下巴唯一指定清爽水感乳液',
+          targetZoneText: '【下巴薄擦】',
+          amount: '僅需 1 滴',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 4B',
+          instruction: '下巴薄擦 1 滴米糠乳液保持透氣防閉口。',
+          technique: '【指腹單層薄擦手法】：下巴薄擦 1 滴即可。'
+        },
+        {
+          id: `${prefix}-body-1`,
+          title: '#B-04 Aveeno 燕麥優格保濕身體乳',
+          categoryLabel: '身體乳',
+          productCode: '身-04',
+          productName: 'Aveeno 艾惟諾 燕麥優格保濕身體乳',
+          appliedRole: '全身保濕鎖水',
+          targetZoneText: '全身手腳四肢',
+          amount: '適量',
+          timingCategory: 'night_body',
+          timingLabel: '晚間身體護理',
+          instruction: '洗澡擦乾後全身塗抹，舒緩乾癢。',
+          technique: '【全身大面積塗抹手法】：均勻塗抹四肢手腳。'
+        }
+      ];
+    }
+
+    if (dayOfWeek === 'sat') {
+      // Week 3 Saturday: VT Reedle 300 Night (Moved from Wed, skipping A醇)
+      return [
+        {
+          id: `${prefix}-clean-1`,
+          title: '#02 MUJI 無印良品 溫和卸妝油',
+          categoryLabel: '洗卸',
+          productCode: '#02',
+          productName: 'MUJI 無印良品 溫和卸妝油',
+          appliedRole: '微晶夜主力卸妝・充分乳化沖淨',
+          targetZoneText: '全臉適用',
+          amount: '按壓 2-3 泵',
+          timingCategory: 'night_cleansing',
+          timingLabel: '晚間洗卸 Step 1',
+          instruction: '乾手乾臉打圈按摩溶出油脂彩妝，溫水充分乳化沖淨。',
+          technique: '【乾手乾臉乳化手法】：取卸妝油按摩全臉，加水乳化沖淨。'
+        },
+        {
+          id: `${prefix}-clean-2`,
+          title: '#07 innisfree 綠茶保濕胺基酸潔面乳',
+          categoryLabel: '洗卸',
+          productCode: '#07',
+          productName: 'innisfree 綠茶保濕胺基酸潔面乳',
+          appliedRole: '微晶前深層潔顏・【洗後務必徹底擦乾】',
+          targetZoneText: '全臉適用',
+          amount: '黃豆大小',
+          timingCategory: 'night_cleansing',
+          timingLabel: '晚間洗卸 Step 2',
+          instruction: '溫水洗淨全臉，以乾淨純棉柔巾「徹底擦乾全臉水分」！',
+          technique: '【乾顏徹底吸水手法】：微晶針必須在完全乾燥的裸肌上使用，用棉柔巾徹底按乾水分。'
+        },
+        {
+          id: `${prefix}-care-1`,
+          title: '#23 VT Reedle Shot 300 膠原微針精華',
+          categoryLabel: '裸肌活性',
+          isHighlighted: true,
+          isKeyFocus: true,
+          productCode: '#23',
+          productName: 'VT Reedle Shot 300 微晶微針精華',
+          appliedRole: '【第 3 週週六排程・相隔水楊酸4天】天然二氧化矽微晶垂直乾壓',
+          targetZoneText: '【全臉乾臉垂直乾壓，嚴禁擦拭】',
+          amount: '按壓 1-2 泵',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 1 (微晶核心)',
+          instruction: '洗臉徹底擦乾後裸肌第一步乾壓全臉！有微刺感屬正常，避開眼周與發炎紅腫痘痘。當晚停用小紫瓶與 AQ 乳！',
+          technique: '【垂直掌壓手法】：均勻點於額頭與兩頰，以手掌指腹「由內向外垂直向下輕壓」，將微米微晶垂直壓入角質層，切勿來回打圈摩擦！',
+          caution: '⚠️ 鐵則：1. 🧪【首次局部測試】：首用前務必於耳後測試 24 小時。 2. 乾臉裸肌使用，嚴禁同晚擦小紫瓶或 AQ 乳。 3. 微晶後只做單純溫和保濕。'
+        },
+        {
+          id: `${prefix}-care-2`,
+          title: '#25 Medicube PDRN 胜肽修護安瓶 (選用)',
+          categoryLabel: '精華液',
+          productCode: '#25',
+          productName: 'Medicube PDRN 粉紅胜肽修護安瓶',
+          appliedRole: '微晶後溫和保濕修護精華（選用）',
+          targetZoneText: '全臉輕按',
+          amount: '滴管 1 滿管',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 2 (選用保濕)',
+          instruction: '微晶後溫和保濕選項，輕柔抹開至吸收。不視為消除刺痛的解藥或修護保證。',
+          technique: '【輕撫按壓手法】：取適量均勻輕按於全臉，依膚況耐受度選用。'
+        },
+        {
+          id: `${prefix}-care-3`,
+          title: '#30 Dr. Reju-All PDRN 屏障修復霜',
+          categoryLabel: '乳液/面霜',
+          isHighlighted: true,
+          productCode: '#30',
+          productName: 'Dr. Reju-All PDRN 高效屏障修復霜',
+          appliedRole: '微晶後兩頰深層舒緩封層',
+          targetZoneText: '【兩頰乾燥區厚塗】',
+          amount: '五元硬幣大小',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 3A',
+          instruction: '兩頰厚塗修復霜，舒緩微晶後的乾燥微刺感。',
+          technique: '【掌心溫熱輕敷手法】：面霜於手掌化開，輕輕覆蓋兩頰厚抹封層。'
+        },
+        {
+          id: `${prefix}-care-4`,
+          title: '#26-2 MUJI 米糠發酵乳液',
+          categoryLabel: '乳液/面霜',
+          productCode: '#26-2',
+          productName: 'MUJI 無印良品 米糠發酵乳液',
+          appliedRole: '下巴唯一指定清爽水感乳液',
+          targetZoneText: '【下巴薄擦】',
+          amount: '僅需 1 滴',
+          timingCategory: 'night_skincare',
+          timingLabel: '晚間保養 Step 3B',
+          instruction: '下巴薄擦 1 滴米糠乳液保持透氣防閉口。',
+          technique: '【指腹單層薄擦手法】：下巴薄擦 1 滴即可。'
+        },
+        {
+          id: `${prefix}-body-1`,
+          title: '#B-04 Aveeno 燕麥優格保濕身體乳',
+          categoryLabel: '身體乳',
+          productCode: '身-04',
+          productName: 'Aveeno 艾惟諾 燕麥優格保濕身體乳',
+          appliedRole: '全身保濕鎖水',
+          targetZoneText: '全身手腳四肢',
+          amount: '適量',
+          timingCategory: 'night_body',
+          timingLabel: '晚間身體護理',
+          instruction: '洗澡後全身塗抹舒緩乾癢。',
+          technique: '【全身大面積塗抹手法】：均勻塗抹四肢軀幹。'
+        }
+      ];
+    }
+  }
 
   switch (dayOfWeek) {
     case 'mon': {
@@ -56,31 +445,31 @@ export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean)
         ? [
             {
               id: `${prefix}-clean-1`,
-              title: '#05 Capsule Serum 維C去角質卸妝凝膠',
+              title: '#02 MUJI 無印良品 溫和卸妝油',
               categoryLabel: '洗卸',
-              productCode: '#05',
-              productName: 'Capsule Serum 維他命 C 去角質護理卸妝潔面凝膠',
-              appliedRole: '素顏防曬日常溫和洗卸・適用部位：全臉',
+              productCode: '#02',
+              productName: 'MUJI 無印良品 溫和卸妝油',
+              appliedRole: '晚間溫和洗卸・前 4 週固定洗卸',
               targetZoneText: '全臉適用',
-              amount: '十元硬幣大小',
+              amount: '按壓 2 泵',
               timingCategory: 'night_cleansing',
               timingLabel: '晚間洗卸 Step 1',
-              instruction: '凝膠均勻塗抹全臉按摩，加少量溫水乳化後沖淨，溫和洗淨素顏防曬與油脂。',
-              technique: '【凝膠溫和乳化手法】：取適量凝膠均勻塗於臉部，指腹由內向外螺旋畫圈按摩 40 秒，遇水後轉化為柔滑乳液質地，帶走日間油脂與抗氧化殘留物，以溫涼水潑洗沖淨。'
+              instruction: '乾手乾臉打圈按摩，加溫水充分乳化沖淨。',
+              technique: '【乾手乾臉乳化手法】：取卸妝油均勻塗抹全臉按摩，乳化沖淨。'
             },
             {
               id: `${prefix}-clean-2`,
-              title: '#06 Relove Nrf2 胺基酸潔面乳',
+              title: '#07 innisfree 綠茶保濕胺基酸潔面乳',
               categoryLabel: '洗卸',
-              productCode: '#06',
-              productName: 'Relove Nrf2 Ultimate Future 胺基酸潔面乳',
-              appliedRole: '晚間溫和潔面主力・保留天然皮脂膜',
+              productCode: '#07',
+              productName: 'innisfree 綠茶保濕胺基酸潔面乳',
+              appliedRole: '晚間泡沫洗顏・保留天然皮脂膜',
               targetZoneText: '全臉適用',
               amount: '黃豆大小',
               timingCategory: 'night_cleansing',
               timingLabel: '晚間洗卸 Step 2',
               instruction: '搓出豐盈綿密泡沫洗臉，純棉柔巾輕壓吸乾水分。',
-              technique: '【綿密泡泡潔面手法】：取黃豆大小潔面乳於掌心加水搓出細緻泡泡，以細密泡沫輕柔清潔全臉肌膚，下巴出油處輕輕打圈，隨後沖淨並用棉柔巾壓乾。'
+              technique: '【綿密泡泡潔面手法】：取黃豆大小潔面乳於掌心加水搓出細緻泡泡，洗淨全臉。'
             }
           ]
         : [
@@ -1373,31 +1762,31 @@ export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean)
         ? [
             {
               id: `${prefix}-clean-1`,
-              title: '#05 Capsule Serum 維C去角質卸妝凝膠',
+              title: '#02 MUJI 無印良品 溫和卸妝油',
               categoryLabel: '洗卸',
-              productCode: '#05',
-              productName: 'Capsule Serum 維他命 C 去角質護理卸妝潔面凝膠',
-              appliedRole: '素顏防曬溫和洗卸・適用部位：全臉',
+              productCode: '#02',
+              productName: 'MUJI 無印良品 溫和卸妝油',
+              appliedRole: '晚間溫和洗卸・前 4 週固定洗卸',
               targetZoneText: '全臉',
-              amount: '適量',
+              amount: '按壓 2 泵',
               timingCategory: 'night_cleansing',
               timingLabel: '晚間洗卸 Step 1',
-              instruction: '凝膠遇水乳化帶走日間防曬與氧化皮脂。',
-              technique: '【輕揉溫水沖淨手法】：凝膠遇水乳化帶走日間防曬與氧化皮脂，維持肌膚角質屏障完整。'
+              instruction: '乾手乾臉打圈按摩，加溫水充分乳化沖淨。',
+              technique: '【乾手乾臉乳化手法】：取卸妝油均勻塗抹全臉按摩，乳化沖淨。'
             },
             {
               id: `${prefix}-clean-2`,
-              title: '#06 Relove Nrf2 胺基酸潔面乳',
+              title: '#07 innisfree 綠茶保濕胺基酸潔面乳',
               categoryLabel: '洗卸',
-              productCode: '#06',
-              productName: 'Relove Nrf2 Ultimate Future 胺基酸潔面乳',
-              appliedRole: '溫和洗面乳潔顏',
+              productCode: '#07',
+              productName: 'innisfree 綠茶保濕胺基酸潔面乳',
+              appliedRole: '溫和洗面乳潔顏・保留天然皮脂膜',
               targetZoneText: '全臉',
               amount: '黃豆大小',
               timingCategory: 'night_cleansing',
               timingLabel: '晚間洗卸 Step 2',
               instruction: '搓揉細緻泡沫洗淨，棉柔巾輕壓擦乾。',
-              technique: '【起泡打圈潔面手法】：溫水搓出細緻泡泡洗淨，按乾水分。'
+              technique: '【起泡潔面手法】：溫水搓出細緻泡泡洗淨，按乾水分。'
             }
           ]
         : [
@@ -1494,7 +1883,7 @@ export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean)
               timingLabel: '晚間保養 Step 4 (核心)',
               instruction: '僅取豌豆大小按壓全臉，避開眼周、嘴角與下巴紅腫痘，抗老撫紋。',
               technique: '【指腹均勻按壓手法】：僅取豌豆大小點於額頭、兩頰與下巴無痘區，以指腹均勻輕柔按壓延展，切勿貪多！避開眼周與發炎紅腫痘痘。',
-              caution: '⚠️ 鐵則：嚴格維持豌豆大小，建立肌膚耐受性，切勿同晚疊擦水楊酸或微針！'
+              caution: '⚠️ 鐵則：1. 🤰【懷孕/備孕安全】：懷孕及備孕期間嚴格禁止使用 A 醇 (Retinol)！ 2. 🧪【首次局部測試】：首用前務必先於耳後或手臂內側測試 24 小時。 3. 嚴格維持豌豆大小，切勿同晚疊擦水楊酸或微針！'
             },
             {
               id: `${prefix}-care-5`,
@@ -1573,7 +1962,7 @@ export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean)
               timingLabel: '晚間保養 Step 4 (核心)',
               instruction: '取豌豆大小按壓全臉，避開眼周與發炎紅腫痘。',
               technique: '【指腹均勻按壓手法】：僅取豌豆大小點於額頭、兩頰與下巴無痘區輕柔按壓延展，切勿貪多。',
-              caution: '⚠️ 鐵則：嚴格維持豌豆大小，切勿同晚疊擦水楊酸或微針！'
+              caution: '⚠️ 鐵則：1. 🤰【懷孕/備孕安全】：懷孕及備孕期間嚴格禁止使用 A 醇 (Retinol)！ 2. 🧪【首次局部測試】：首用前務必先於耳後或手臂內側測試 24 小時。 3. 嚴格維持豌豆大小，切勿同晚疊擦水楊酸或微針！'
             },
             {
               id: `${prefix}-care-5`,
@@ -1644,18 +2033,17 @@ export function getCanonicalNightSteps(dayOfWeek: DayOfWeek, isOddWeek: boolean)
             },
             {
               id: `${prefix}-clean-2`,
-              title: '#08 綠番茄毛孔緊緻洗面乳',
+              title: '#07 innisfree 綠茶保濕胺基酸潔面乳',
               categoryLabel: '洗卸',
-              isKeyFocus: true,
-              productCode: '#08',
-              productName: 'SUNGBOON EDITOR 綠番茄毛孔緊緻深層潔面乳',
-              appliedRole: '【局部洗下巴與鼻翼】深層淨化緊緻毛孔',
-              targetZoneText: '【局部搓揉下巴與鼻翼毛孔】',
+              productCode: '#07',
+              productName: 'innisfree 綠茶保濕胺基酸潔面乳',
+              appliedRole: '晚間泡沫洗顏・保留天然皮脂膜（綠番茄前4週暫停）',
+              targetZoneText: '全臉適用',
               amount: '黃豆大小',
               timingCategory: 'night_cleansing',
               timingLabel: '晚間洗卸 Step 2',
-              instruction: '取適量搓揉，局部加強下巴粉刺與鼻翼毛孔洗淨。',
-              technique: '【局部毛孔深層洗顏手法】：加水搓出微泡，專注於下巴粉刺與鼻翼黑頭輕柔打圈 30 秒，洗出毛孔髒污沖淨。'
+              instruction: '取適量搓揉出綿密細泡，輕柔洗淨全臉後吸乾水分。',
+              technique: '【起泡潔面手法】：加水搓出柔滑泡泡，輕柔打圈清潔全臉，純棉柔巾輕壓按乾。'
             }
           ]
         : [
