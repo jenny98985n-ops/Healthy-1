@@ -1,6 +1,7 @@
 import React from 'react';
 import { WeekType } from '../types';
 import { Volume2, VolumeX, Timer, Bell, Download, Sparkles, Calendar, Layers, ShieldCheck, Pill, Palette, Activity } from 'lucide-react';
+import { getTodayFormattedZh, getWeekNumber, getTaiwanDateObj } from '../utils/storage';
 
 interface HeaderProps {
   currentTab: string;
@@ -27,9 +28,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenExport,
   todayCompletionRate
 }) => {
-  const currentDate = new Date();
-  const dateFormatted = `${currentDate.getFullYear()} 年 ${currentDate.getMonth() + 1} 月 ${currentDate.getDate()} 日 星期二`;
-  const weekNum = 44; // October 2026
+  const dateFormatted = getTodayFormattedZh();
+  const weekNum = getWeekNumber();
 
   const navItems = [
     { id: 'today', label: '今日主頁', icon: Sparkles },

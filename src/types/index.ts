@@ -39,14 +39,20 @@ export interface ProductItem {
 export interface StepItem {
   id: string;
   title: string;
+  categoryLabel?: string; // '洗卸' | '裸肌活性' | '前導通道' | '先乳後水' | '化妝水/噴霧' | '精華液' | '眼霜' | '乳液/面霜' | '局部急救' | '面膜/棉片' | '美容儀' | '身體乳' | '處方藥' | '保健品';
   productCode?: string;
   productName: string;
   targetZoneText?: string;
   timingCategory: 'morning_rx' | 'morning_skincare' | 'noon_rx' | 'night_cleansing' | 'night_skincare' | 'night_body' | 'bedtime_rx';
   timingLabel: string;
   instruction: string;
-  timerDurationMinutes?: number; // e.g. 3m, 10m, 15m
+  technique?: string; // 手法與手勢
+  amount?: string; // 建議用量
+  appliedRole?: string; // 作用或角色說明
+  caution?: string; // 鐵則 / 注意事項
+  timerDurationMinutes?: number; // e.g. 1m, 3m, 5m, 10m, 15m
   isKeyFocus?: boolean;
+  isHighlighted?: boolean;
 }
 
 export interface DayRoutine {

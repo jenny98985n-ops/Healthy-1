@@ -422,15 +422,15 @@ export const ALL_PRODUCTS: ProductItem[] = [
   {
     id: '37',
     code: '#37',
-    name: 'BRINGGREEN 超級檸檬亮眼霜 ＋ Neogene 胜肽亮眼霜',
+    name: 'BRINGGREEN 維他命超級檸檬亮眼霜（備選：Neogene 胜肽亮眼霜，單擦二選一）',
     brand: 'BRINGGREEN / Neogene',
     category: 'eye_care',
-    categoryLabel: '晨間眼部亮眸',
+    categoryLabel: '晨間眼部亮眸（單擦極簡）',
     targetZone: 'eyes',
-    zoneLabel: '眼周專用',
+    zoneLabel: '眼周專用（嚴禁疊擦兩款）',
     weekType: 'both',
-    usageRule: '早晨素顏上班日薄擦眼下，提亮熬夜暗沉與浮腫。',
-    molecularTip: '維他命原 C 與多胜肽複合物，改善微循環，質地清透不長脂肪粒。'
+    usageRule: '早晨素顏上班日單擦薄抹眼下，二選一使用（絕對不可同時疊擦兩款眼霜！），清爽提亮熬夜暗沉與浮腫，杜絕脂肪粒與閉鎖粉刺。',
+    molecularTip: '高活性維他命原 C 與多胜肽，質地清透水感，單層極簡吸收迅速，零油脂負擔防止閉口粉刺與脂肪粒。'
   },
   {
     id: '38',
@@ -2183,13 +2183,13 @@ export const MORNING_SKINCARE_STEPS_BARE = (weekType: 'odd' | 'even'): StepItem[
   },
   {
     id: 'am-bare-4',
-    title: '素顏晨間眼霜',
+    title: '素顏晨間眼霜（單擦極簡）',
     productCode: '#37',
-    productName: 'BRINGGREEN 超級檸檬眼霜 / Neogene 亮眼霜',
+    productName: 'BRINGGREEN 維他命超級檸檬亮眼霜（單擦，非疊加）',
     targetZoneText: '眼下專用',
     timingCategory: 'morning_skincare',
     timingLabel: '晨間 Step 4',
-    instruction: '取米粒大小輕輕點按眼周，改善眼周暗沉與浮腫。'
+    instruction: '【單一眼霜原則】：取米粒大小輕輕點按眼周，改善眼周暗沉與浮腫，切勿疊擦多款眼霜防止長脂肪粒與致粉刺。'
   },
   {
     id: 'am-bare-5',

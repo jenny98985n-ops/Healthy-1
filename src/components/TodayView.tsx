@@ -5,10 +5,10 @@ import {
   MORNING_PRESCRIPTION_STEPS,
   NOON_SUPPLEMENT_STEPS,
   BEDTIME_PRESCRIPTION_STEPS,
-  MORNING_SKINCARE_STEPS_BARE,
-  MORNING_SKINCARE_STEPS_MAKEUP,
   ALL_PRODUCTS
 } from '../data/amandaRoutineData';
+import { getCanonicalNightSteps, getCanonicalMorningSteps } from '../data/canonicalRoutines';
+import { getDayOfWeekFromDate, getTodayCalendarDayNum, getTodayFormattedZh } from '../utils/storage';
 import {
   Sparkles,
   CheckCircle2,
@@ -22,7 +22,11 @@ import {
   Droplets,
   Layers,
   ChevronRight,
-  ExternalLink
+  ChevronDown,
+  ExternalLink,
+  ShieldCheck,
+  Eye,
+  AlertTriangle
 } from 'lucide-react';
 
 interface TodayViewProps {
@@ -51,36 +55,21 @@ export const TodayView: React.FC<TodayViewProps> = ({
   onSelectProduct
 }) => {
   const [filterSection, setFilterSection] = useState<'all' | 'skincare' | 'supplements'>('all');
+  const [expandedStepId, setExpandedStepId] = useState<string | null>(null);
 
   const currentRoutine = DAY_ROUTINES.find(r => r.day === selectedDay) || DAY_ROUTINES[1];
   const activeWeekData = weekType === 'even' ? currentRoutine.evenWeek : currentRoutine.oddWeek;
 
-  // Build the complete list of steps for today
-  const morningSkincareSteps = routineMode === 'makeup'
-    ? MORNING_SKINCARE_STEPS_MAKEUP
-    : MORNING_SKINCARE_STEPS_BARE(weekType);
+  // Single Canonical Source of Truth for Daily Steps
+  const isOdd = weekType === 'odd';
+  const morningSkincareSteps = getCanonicalMorningSteps(routineMode === 'makeup', isOdd);
 
-  const nightCleansingStep: StepItem = {
-    id: `cleansing-${selectedDay}-${weekType}`,
-    title: '今日洗卸程序',
-    productName: activeWeekData.cleansingDesc,
-    timingCategory: 'night_cleansing',
-    timingLabel: '晚間洗卸',
-    targetZoneText: '全臉與下巴重點清潔',
-    instruction: `依今日排程執行清潔洗卸：${activeWeekData.cleansingDesc}`
-  };
+  const nightAllSteps = getCanonicalNightSteps(selectedDay, isOdd);
+  const nightCleansingSteps = nightAllSteps.filter(s => s.timingCategory === 'night_cleansing');
+  const nightSkincareSteps = nightAllSteps.filter(s => s.timingCategory === 'night_skincare');
+  const nightBodySteps = nightAllSteps.filter(s => s.timingCategory === 'night_body');
 
-  const bodyLotionStep: StepItem = {
-    id: `body-${selectedDay}-${weekType}`,
-    title: '秋冬沐浴後身體乳護理',
-    productName: activeWeekData.bodyLotionDesc,
-    timingCategory: 'night_body',
-    timingLabel: '沐浴身體保養',
-    targetZoneText: '身體四肢 / 局部角化處',
-    instruction: `洗澡擦乾後立即塗抹：${activeWeekData.bodyLotionDesc}`
-  };
-
-  // All combined steps in chronological order
+  // All combined steps in chronological order (100% synchronized with Calendar SOP modal)
   const allTodaySteps: StepItem[] = [
     // 1. Morning Prescription & Supplements
     ...MORNING_PRESCRIPTION_STEPS,
@@ -88,12 +77,12 @@ export const TodayView: React.FC<TodayViewProps> = ({
     ...morningSkincareSteps,
     // 3. Noon Supplements
     ...NOON_SUPPLEMENT_STEPS,
-    // 4. Night Cleansing
-    nightCleansingStep,
+    // 4. Night Cleansing (Itemized by product)
+    ...nightCleansingSteps,
     // 5. Night Skincare Routine
-    ...activeWeekData.skincareSteps,
+    ...nightSkincareSteps,
     // 6. Night Body Lotion
-    bodyLotionStep,
+    ...nightBodySteps,
     // 7. Bedtime Prescription
     ...BEDTIME_PRESCRIPTION_STEPS
   ];
@@ -102,7 +91,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
   const completedCount = allTodaySteps.filter(s => completedStepIds.includes(s.id)).length;
   const completionPercentage = totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
 
-  // Group steps for clean presentation
+  // Group steps for clean presentation matching the SOP modal sequence
   const sections = [
     {
       id: 'morning_rx',
@@ -140,7 +129,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
       badge: '角質屏障防護',
       badgeColor: 'bg-cyan-100 text-cyan-800 border-cyan-200',
       categoryType: 'skincare',
-      steps: [nightCleansingStep]
+      steps: nightCleansingSteps
     },
     {
       id: 'night_care',
@@ -149,7 +138,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
       badge: currentRoutine.themeBadge,
       badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
       categoryType: 'skincare',
-      steps: activeWeekData.skincareSteps
+      steps: nightSkincareSteps
     },
     {
       id: 'night_body',
@@ -158,7 +147,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
       badge: '四肢屏障鎖水',
       badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       categoryType: 'skincare',
-      steps: [bodyLotionStep]
+      steps: nightBodySteps
     },
     {
       id: 'bedtime_rx',
@@ -190,17 +179,24 @@ export const TodayView: React.FC<TodayViewProps> = ({
     }
   };
 
+  const actualTodayDay = getDayOfWeekFromDate();
+  const todayCalendarDay = getTodayCalendarDayNum(weekType);
+  const todayDateStr = getTodayFormattedZh();
+
   return (
     <div className="space-y-6 pb-16">
       {/* 1. Weekday Selector Carousel / Bar */}
       <div className="bg-white rounded-2xl p-3 border border-stone-200/80 shadow-xs">
         <div className="flex items-center justify-between mb-2 px-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-semibold text-stone-800">每週主題排程速覽 ＆ 星期切換</span>
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
               weekType === 'even' ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-700'
             }`}>
               {weekType === 'even' ? '偶數週 (Even)' : '奇數週 (Odd)'}
+            </span>
+            <span className="text-xs text-stone-500 hidden sm:inline">
+              | 即時日期：{todayDateStr}（DAY {todayCalendarDay}）
             </span>
           </div>
           <button
@@ -214,20 +210,30 @@ export const TodayView: React.FC<TodayViewProps> = ({
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
           {daysList.map((d) => {
             const isSelected = selectedDay === d.id;
+            const isActualToday = d.id === actualTodayDay;
             return (
               <button
                 key={d.id}
                 onClick={() => setSelectedDay(d.id)}
-                className={`p-2.5 rounded-xl text-left transition-all border cursor-pointer ${
+                className={`p-2.5 rounded-xl text-left transition-all border cursor-pointer relative ${
                   isSelected
                     ? 'bg-stone-900 text-white border-stone-900 shadow-sm ring-2 ring-stone-900/10'
-                    : 'bg-stone-50/70 hover:bg-stone-100 text-stone-700 border-stone-200/70'
+                    : isActualToday
+                      ? 'bg-rose-50/70 hover:bg-rose-100/80 text-stone-800 border-rose-300 ring-1 ring-rose-300'
+                      : 'bg-stone-50/70 hover:bg-stone-100 text-stone-700 border-stone-200/70'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className={`text-sm font-bold ${isSelected ? 'text-amber-300' : 'text-stone-800'}`}>
-                    {d.label}
-                  </span>
+                  <div className="flex items-center gap-1">
+                    <span className={`text-sm font-bold ${isSelected ? 'text-amber-300' : 'text-stone-800'}`}>
+                      {d.label}
+                    </span>
+                    {isActualToday && (
+                      <span className="text-[9px] font-black px-1.5 py-0.2 rounded-full bg-[#ff1e56] text-white animate-pulse">
+                        今日
+                      </span>
+                    )}
+                  </div>
                   <span className={`text-[10px] px-1.5 py-0.2 rounded-md font-medium ${
                     isSelected ? 'bg-white/20 text-white' : 'bg-stone-200/80 text-stone-600'
                   }`}>
@@ -260,6 +266,11 @@ export const TodayView: React.FC<TodayViewProps> = ({
               }`}>
                 {weekType === 'even' ? '偶數週排程' : '奇數週排程'}
               </span>
+              {selectedDay === actualTodayDay && (
+                <span className="text-xs px-2.5 py-1 rounded-full font-bold bg-[#ff1e56] text-white shadow-xs animate-pulse">
+                  🌟 今日即時排程 (DAY {todayCalendarDay})
+                </span>
+              )}
             </div>
 
             <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
@@ -362,6 +373,39 @@ export const TodayView: React.FC<TodayViewProps> = ({
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Anti-Comedone & Eye Care Discipline Banner */}
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50/60 rounded-2xl p-4 sm:p-5 border border-amber-200/80 text-amber-950 space-y-2.5">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
+            <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>皮膚科醫師級・防閉鎖粉刺＆眼周減法防護守則（杜絕悶痘、長粉刺與脂肪粒）</span>
+          </div>
+          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300/60">
+            減法護理・避免步驟繁複堆疊
+          </span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-amber-900/90">
+          <div className="bg-white/85 p-3 rounded-xl border border-amber-200/60 space-y-1">
+            <div className="flex items-center gap-1.5 font-bold text-stone-900">
+              <Eye className="w-3.5 h-3.5 text-rose-500" />
+              <span>① 嚴格「單一眼霜原則」，絕對不疊加兩款</span>
+            </div>
+            <p className="text-stone-600 leading-relaxed">
+              眼周肌膚薄且無皮脂腺。<strong>早晚各僅擦一款眼霜（米粒大小即可）</strong>。同時疊擦兩款會導致油脂過載長眼下脂肪粒，且眼霜下移擴散會直接堵塞下巴毛孔引發閉鎖粉刺。
+            </p>
+          </div>
+          <div className="bg-white/85 p-3 rounded-xl border border-amber-200/60 space-y-1">
+            <div className="flex items-center gap-1.5 font-bold text-stone-900">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+              <span>② 下巴閉鎖粉刺區「厚霜禁區，極簡呼吸」</span>
+            </div>
+            <p className="text-stone-600 leading-relaxed">
+              兩頰乾肌擦冰河霜/角鯊霜；<strong>下巴嚴禁厚面霜與高滋潤乳液</strong>！下巴只薄擦 1 滴 #26-2 MUJI 米糠發酵乳液，維持毛孔清爽透氣，徹底根絕內包閉口硬塊。
+            </p>
           </div>
         </div>
       </div>
@@ -567,6 +611,11 @@ export const TodayView: React.FC<TodayViewProps> = ({
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between flex-wrap gap-1.5">
                             <div className="flex items-center gap-2 flex-wrap">
+                              {step.categoryLabel && (
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#292524] text-white">
+                                  {step.categoryLabel}
+                                </span>
+                              )}
                               {step.productCode && (
                                 <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-700">
                                   {step.productCode}
@@ -602,6 +651,23 @@ export const TodayView: React.FC<TodayViewProps> = ({
                                   <span>倒數 {step.timerDurationMinutes} 分鐘</span>
                                 </button>
                               )}
+                              {step.technique && (
+                                <button
+                                  onClick={() =>
+                                    setExpandedStepId(expandedStepId === step.id ? null : step.id)
+                                  }
+                                  className="text-[11px] px-2 py-0.5 rounded-md bg-stone-100 hover:bg-stone-200 text-stone-700 transition flex items-center gap-0.5 cursor-pointer font-medium"
+                                  title="展開/收起手法"
+                                >
+                                  <Sparkles className="w-3 h-3 text-amber-600" />
+                                  <span>手法</span>
+                                  {expandedStepId === step.id ? (
+                                    <ChevronDown className="w-3 h-3" />
+                                  ) : (
+                                    <ChevronRight className="w-3 h-3" />
+                                  )}
+                                </button>
+                              )}
                               {step.productCode && (
                                 <button
                                   onClick={() => handleProductLookup(step.productCode!)}
@@ -622,6 +688,24 @@ export const TodayView: React.FC<TodayViewProps> = ({
                           >
                             {step.instruction}
                           </p>
+
+                          {/* Expanded Hand Technique and Amount */}
+                          {expandedStepId === step.id && step.technique && (
+                            <div className="mt-2.5 p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-stone-800 space-y-1.5 text-xs animate-in fade-in duration-150">
+                              <div className="flex items-center justify-between text-[11px] font-medium text-stone-500">
+                                <span>建議用量：<strong className="text-stone-800">{step.amount || '適量'}</strong></span>
+                                <span>適用部位：<strong className="text-stone-800">{step.targetZoneText || '全臉'}</strong></span>
+                              </div>
+                              <div className="text-[11px] text-stone-700 leading-relaxed">
+                                {step.technique}
+                              </div>
+                              {step.caution && (
+                                <div className="text-[10px] text-rose-800 bg-rose-50 p-1.5 rounded-lg border border-rose-200 font-medium">
+                                  {step.caution}
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

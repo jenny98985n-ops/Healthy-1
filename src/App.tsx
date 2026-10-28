@@ -28,8 +28,10 @@ import { playCheckInSound, playAllCompleteChime, getSoundMuted, setSoundMuted } 
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('today');
-  const [selectedDay, setSelectedDay] = useState<DayOfWeek>('tue'); // Default to Tuesday as in reference screenshot
-  const [weekType, setWeekTypeState] = useState<WeekType>(getDefaultWeekType());
+  // Dynamically initialize to today's real day of week (e.g. Wednesday 'wed')
+  const [selectedDay, setSelectedDay] = useState<DayOfWeek>(() => getDayOfWeekFromDate());
+  // Dynamically calculate current week number in year (e.g. Week 44 = Even)
+  const [weekType, setWeekTypeState] = useState<WeekType>(() => getDefaultWeekType());
   const [routineMode, setRoutineModeState] = useState<RoutineMode>(getStoredRoutineMode());
   const [isSoundMuted, setIsSoundMutedState] = useState<boolean>(getSoundMuted());
 
@@ -71,9 +73,9 @@ export default function App() {
     setSoundMuted(nextVal);
   };
 
-  const handleOpenTimerForDuration = (mins: number, title: string) => {
+  const handleOpenTimerForDuration = (mins: number, title?: string) => {
     setTimerDuration(mins);
-    setTimerTitle(title);
+    setTimerTitle(title || '保養倒數計時器');
     setIsTimerOpen(true);
   };
 
@@ -140,11 +142,13 @@ export default function App() {
         {currentTab === 'calendar' && (
           <CalendarView
             currentDay={selectedDay}
+            weekType={weekType}
             onSelectDayRoutine={(day, wType) => {
               setSelectedDay(day);
               handleSetWeekType(wType);
               setCurrentTab('today');
             }}
+            onOpenTimerForDuration={handleOpenTimerForDuration}
           />
         )}
 

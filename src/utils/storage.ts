@@ -9,22 +9,40 @@ const STORAGE_KEYS = {
   SKIN_LOGS: 'glowsync_skin_logs_v1'
 };
 
+export const getTaiwanDateObj = (): Date => {
+  // Use Asia/Taipei timezone by default for Taiwan time UTC+8
+  try {
+    const now = new Date();
+    const tzString = now.toLocaleString('en-US', { timeZone: 'Asia/Taipei' });
+    return new Date(tzString);
+  } catch {
+    return new Date();
+  }
+};
+
 export const getTodayDateKey = (): string => {
-  const d = new Date();
+  const d = getTaiwanDateObj();
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
 
-export const getDayOfWeekFromDate = (date: Date = new Date()): DayOfWeek => {
-  const dayIndex = date.getDay(); // 0 is Sunday, 1 is Monday ...
+export const getTodayFormattedZh = (): string => {
+  const d = getTaiwanDateObj();
+  const weekDaysZh = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  const dayZh = weekDaysZh[d.getDay()];
+  return `${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日 ${dayZh}`;
+};
+
+export const getDayOfWeekFromDate = (date: Date = getTaiwanDateObj()): DayOfWeek => {
+  const dayIndex = date.getDay(); // 0 is Sunday, 1 is Monday, 2 is Tuesday, 3 is Wednesday ...
   const mapping: DayOfWeek[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   return mapping[dayIndex];
 };
 
-// Calculate week number in year (ISO week or approximate)
-export const getWeekNumber = (d: Date = new Date()): number => {
+// Calculate week number in year (ISO week)
+export const getWeekNumber = (d: Date = getTaiwanDateObj()): number => {
   const target = new Date(d.valueOf());
   const dayNr = (d.getDay() + 6) % 7;
   target.setDate(target.getDate() - dayNr + 3);
@@ -42,9 +60,47 @@ export const getDefaultWeekType = (): WeekType => {
   if (override === 'odd' || override === 'even') {
     return override;
   }
-  // Standard calculation: October 2026 is week 44 (even)
+  // Standard calculation: Week 44 is even
   const weekNum = getWeekNumber();
   return weekNum % 2 === 0 ? 'even' : 'odd';
+};
+
+/**
+ * Calculates the current DAY in the 28-day (4-week) cycle.
+ * Week 1: Day 1-7 (Odd)
+ * Week 2: Day 8-14 (Even)
+ * Week 3: Day 15-21 (Odd)
+ * Week 4: Day 22-28 (Even)
+ * For 2026-10-28 Wednesday (Week 44 Even Week, Cycle Week 2), this returns DAY 10!
+ */
+export const getTodayCalendarDayNum = (activeWeekType?: WeekType): number => {
+  const d = getTaiwanDateObj();
+  const dayOfWeek = getDayOfWeekFromDate(d);
+  const dayIndexMap: Record<DayOfWeek, number> = {
+    mon: 0,
+    tue: 1,
+    wed: 2,
+    thu: 3,
+    fri: 4,
+    sat: 5,
+    sun: 6
+  };
+  const dayOffset = dayIndexMap[dayOfWeek];
+
+  const currentType = activeWeekType || getDefaultWeekType();
+  const isoWeek = getWeekNumber(d);
+  
+  // Base cycle week mapping (1..4)
+  let cycleWeek = ((isoWeek - 1) % 4) + 1;
+  if (currentType === 'even' && cycleWeek % 2 !== 0) {
+    cycleWeek = 2;
+  } else if (currentType === 'odd' && cycleWeek % 2 === 0) {
+    cycleWeek = 1;
+  } else if (currentType === 'even' && cycleWeek === 4) {
+    cycleWeek = 2; // Week 2 is the primary Even cycle for Amanda's 4-week calendar
+  }
+
+  return (cycleWeek - 1) * 7 + dayOffset + 1;
 };
 
 export const saveWeekTypeOverride = (type: WeekType) => {
