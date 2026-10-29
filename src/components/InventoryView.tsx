@@ -103,10 +103,10 @@ export const InventoryView: React.FC<InventoryViewProps> = ({ onSelectProduct })
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-stone-900">
-                全庫存產品清單 (41 項外用保養品 ＋ 6 款身體乳 ＋ 美容儀 ＋ 保健品)
+                全庫存產品清單 (臉部 48 項編號全部排入・第 1 週起無暫停 ＋ 6 款身體乳 ＋ 保健品與處方藥)
               </h2>
               <p className="text-xs sm:text-sm text-stone-500 mt-0.5">
-                點擊任一臉部保養品或身體乳，即可查看詳細專屬定位、奇偶週分流策略、分區用法與安全注意事項。
+                依照 skincare_plan_v7 最新排程，全數 48 項臉部保養品全部排入排程中，第 1 週起無暫停項目，點擊任一品項即可查看詳細專屬定位與手法。
               </p>
             </div>
           </div>

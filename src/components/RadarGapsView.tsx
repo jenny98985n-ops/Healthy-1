@@ -176,7 +176,7 @@ export const RadarGapsView: React.FC = () => {
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-stone-500 leading-relaxed max-w-3xl">
-            透過多維度數值化模型，深度評估您的 41 項外用品 ＋ 6 款身體乳 ＋ 美容儀 ＋ 6 款保健品的覆蓋飽和度、屏障優勢與補強焦點。
+            透過多維度數值化模型，深度評估您的臉部 48 項編號產品 ＋ 6 款身體乳 ＋ 美容儀 ＋ 6 款保健品的覆蓋飽和度、屏障優勢與補強焦點。
           </p>
         </div>
 

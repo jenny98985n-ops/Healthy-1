@@ -106,6 +106,14 @@ export default function App() {
   const todayCompletedStepIds = currentTodayRecord?.completedStepIds || [];
   const todayCompletionRate = currentTodayRecord?.percentage || 0;
 
+  const handleResetToToday = () => {
+    setSelectedDay(getDayOfWeekFromDate());
+    const defaultWeek = getDefaultWeekType();
+    setWeekTypeState(defaultWeek);
+    saveWeekTypeOverride(defaultWeek);
+    setCurrentTab('today');
+  };
+
   return (
     <div className="min-h-screen bg-[#fcfbfa] text-stone-900 font-sans selection:bg-rose-100 selection:text-rose-900">
       {/* Persistent Global Header */}
@@ -120,6 +128,7 @@ export default function App() {
         onOpenReminders={() => setIsRemindersOpen(true)}
         onOpenExport={() => setCurrentTab('analytics')}
         todayCompletionRate={todayCompletionRate}
+        onResetToToday={handleResetToToday}
       />
 
       {/* Main View Area */}

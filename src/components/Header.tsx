@@ -14,6 +14,7 @@ interface HeaderProps {
   onOpenReminders: () => void;
   onOpenExport: () => void;
   todayCompletionRate: number;
+  onResetToToday?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -26,14 +27,15 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenTimer,
   onOpenReminders,
   onOpenExport,
-  todayCompletionRate
+  todayCompletionRate,
+  onResetToToday
 }) => {
   const dateFormatted = getTodayFormattedZh();
   const weekNum = getWeekNumber();
 
   const navItems = [
     { id: 'today', label: '今日主頁', icon: Sparkles },
-    { id: 'calendar', label: '4週月曆總覽', icon: Calendar },
+    { id: 'calendar', label: '月曆與2027長程排程', icon: Calendar },
     { id: 'supplements', label: '處方藥與保健品', icon: Pill },
     { id: 'makeup_cleansing', label: '週末上妝與洗卸', icon: Palette },
     { id: 'radar', label: '配方雷達與缺口', icon: Activity },
@@ -62,20 +64,24 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <p className="text-xs text-stone-500 hidden sm:block">
-                41項外用品 ＋ 6款身體乳 ＋ 美容儀 ＋ 6款保健品 ＋ 4項處方用藥
+                臉部 48 項編號全部排入（第 1 週起無暫停）＋ 6 款身體乳 ＋ 6 款保健品 ＋ 4 項處方用藥
               </p>
             </div>
           </div>
 
           {/* Date, Week badge, Audio & Actions */}
           <div className="flex items-center flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm">
-            {/* Date Display */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-50 border border-stone-200/80 text-stone-600 font-medium">
-              <Calendar className="w-3.5 h-3.5 text-stone-400" />
-              <span>{dateFormatted}</span>
+            {/* Clickable Date Display syncing to today */}
+            <button
+              onClick={onResetToToday}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-50 hover:bg-stone-100 border border-stone-200/80 text-stone-700 font-medium transition cursor-pointer"
+              title="點擊校準並回到今日（2026年10月28日 星期三）"
+            >
+              <Calendar className="w-3.5 h-3.5 text-rose-500" />
+              <span className="font-bold text-stone-800">{dateFormatted}</span>
               <span className="text-stone-300">|</span>
-              <span className="text-stone-500">第 {weekNum} 週</span>
-            </div>
+              <span className="text-stone-500 font-mono">第 {weekNum} 週</span>
+            </button>
 
             {/* Week Switcher Badge */}
             <button

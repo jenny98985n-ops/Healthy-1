@@ -8,7 +8,8 @@ import {
   ALL_PRODUCTS
 } from '../data/amandaRoutineData';
 import { getCanonicalNightSteps, getCanonicalMorningSteps } from '../data/canonicalRoutines';
-import { getDayOfWeekFromDate, getTodayCalendarDayNum, getTodayFormattedZh } from '../utils/storage';
+import { getDayOfWeekFromDate, getTodayCalendarDayNum, getTodayFormattedZh, getDefaultWeekType } from '../utils/storage';
+import { getNightTypeForDay } from '../utils/longTermCalendar';
 import {
   Sparkles,
   CheckCircle2,
@@ -91,6 +92,8 @@ export const TodayView: React.FC<TodayViewProps> = ({
   const completedCount = allTodaySteps.filter(s => completedStepIds.includes(s.id)).length;
   const completionPercentage = totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
 
+  const todayNightMeta = getNightTypeForDay(selectedDay, isOdd);
+
   // Group steps for clean presentation matching the SOP modal sequence
   const sections = [
     {
@@ -135,8 +138,8 @@ export const TodayView: React.FC<TodayViewProps> = ({
       id: 'night_care',
       title: `🌙 晚間：精準分子保養排程（${currentRoutine.dayName}・${weekType === 'even' ? '偶數週' : '奇數週'}）`,
       subtitle: activeWeekData.specialProcedure?.desc || currentRoutine.themeDescription,
-      badge: currentRoutine.themeBadge,
-      badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
+      badge: `【${todayNightMeta.label}】${todayNightMeta.category}夜`,
+      badgeColor: todayNightMeta.badgeClass,
       categoryType: 'skincare',
       steps: nightSkincareSteps
     },
@@ -160,15 +163,18 @@ export const TodayView: React.FC<TodayViewProps> = ({
     }
   ];
 
-  const daysList: { id: DayOfWeek; label: string; theme: string; tag: string }[] = [
-    { id: 'mon', label: '週一', theme: '💧 頂級修護夜', tag: '修護' },
-    { id: 'tue', label: '週二', theme: '🧪 水楊酸夜 (粉刺大掃除)', tag: '水楊酸' },
-    { id: 'wed', label: '週三', theme: '⚡ 微晶激活夜 (VT 300)', tag: '微晶' },
-    { id: 'thu', label: '週四', theme: '🛡️ 儀器深層導入夜', tag: '離子儀' },
-    { id: 'fri', label: '週五', theme: '🌙 A 醇微晶抗老夜', tag: 'A醇' },
-    { id: 'sat', label: '週六', theme: '✨ 週末去角質與淨膚夜', tag: '淨膚' },
-    { id: 'sun', label: '週日', theme: '🌿 深度保養與面膜夜', tag: '雙面膜' }
-  ];
+  const daysList = (['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as DayOfWeek[]).map((dow) => {
+    const meta = getNightTypeForDay(dow, isOdd);
+    const dayLabel = dow === 'mon' ? '週一' : dow === 'tue' ? '週二' : dow === 'wed' ? '週三' : dow === 'thu' ? '週四' : dow === 'fri' ? '週五' : dow === 'sat' ? '週六' : '週日';
+    return {
+      id: dow,
+      label: dayLabel,
+      theme: meta.label,
+      tag: meta.label,
+      category: meta.category,
+      meta
+    };
+  });
 
   // Helper to find matching product for detail popup
   const handleProductLookup = (codeOrName: string) => {
@@ -196,15 +202,29 @@ export const TodayView: React.FC<TodayViewProps> = ({
               {weekType === 'even' ? '偶數週 (Even)' : '奇數週 (Odd)'}
             </span>
             <span className="text-xs text-stone-500 hidden sm:inline">
-              | 即時日期：{todayDateStr}（DAY {todayCalendarDay}）
+              | 即時校準：{todayDateStr}（DAY {todayCalendarDay}）
             </span>
           </div>
-          <button
-            onClick={() => setWeekType(weekType === 'even' ? 'odd' : 'even')}
-            className="text-xs text-stone-500 hover:text-stone-800 underline transition cursor-pointer"
-          >
-            切換為{weekType === 'even' ? '奇數週' : '偶數週'} ➔
-          </button>
+          <div className="flex items-center gap-2">
+            {selectedDay !== actualTodayDay && (
+              <button
+                onClick={() => {
+                  setSelectedDay(actualTodayDay);
+                  setWeekType(getDefaultWeekType());
+                }}
+                className="text-xs px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 font-bold transition cursor-pointer flex items-center gap-1"
+                title="回到今日（10/28 週三 DAY 10）"
+              >
+                <span>⚡ 回到今日</span>
+              </button>
+            )}
+            <button
+              onClick={() => setWeekType(weekType === 'even' ? 'odd' : 'even')}
+              className="text-xs text-stone-500 hover:text-stone-800 underline transition cursor-pointer"
+            >
+              切換為{weekType === 'even' ? '奇數週' : '偶數週'} ➔
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
@@ -234,15 +254,22 @@ export const TodayView: React.FC<TodayViewProps> = ({
                       </span>
                     )}
                   </div>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-md font-medium ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-stone-200/80 text-stone-600'
-                  }`}>
-                    {d.tag}
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-md font-black border shadow-2xs ${d.meta.badgeClass}`}
+                    style={{
+                      backgroundColor: d.meta.hexBg,
+                      color: d.meta.hexText,
+                      borderColor: d.meta.hexBorder
+                    }}
+                  >
+                    【{d.meta.label}】
                   </span>
                 </div>
-                <p className={`text-xs mt-1 truncate ${isSelected ? 'text-stone-300' : 'text-stone-500'}`}>
-                  {d.theme.replace(/^[^\w\s]*\s*/, '')}
-                </p>
+                <div className="flex items-center justify-between text-[11px] mt-1">
+                  <span className={`font-semibold ${isSelected ? 'text-stone-300' : 'text-stone-500'}`}>
+                    {d.meta.category}夜
+                  </span>
+                </div>
               </button>
             );
           })}
@@ -261,6 +288,16 @@ export const TodayView: React.FC<TodayViewProps> = ({
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
                 <span>{currentRoutine.themeTitle}</span>
               </h2>
+              <span
+                className="text-xs sm:text-sm font-black px-3 py-1 rounded-xl border shadow-xs"
+                style={{
+                  backgroundColor: todayNightMeta.hexBg,
+                  color: todayNightMeta.hexText,
+                  borderColor: todayNightMeta.hexBorder
+                }}
+              >
+                【夜晚類型：{todayNightMeta.label}・{todayNightMeta.category}夜】
+              </span>
               <span className={`text-xs px-2.5 py-1 rounded-full font-bold shadow-xs ${
                 weekType === 'even' ? 'bg-emerald-500/90 text-white' : 'bg-indigo-500/90 text-white'
               }`}>
